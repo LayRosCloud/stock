@@ -1,21 +1,33 @@
 import {Module} from "@nestjs/common";
 import {SequelizeModule} from "@nestjs/sequelize";
-import { UsersModule } from './users/users.module';
 import {ConfigModule} from "@nestjs/config";
 import * as process from "process";
-import {User} from "./users/users.model";
-import { RolesModule } from './roles/roles.module';
-import {Role} from "./roles/roles.model";
-import {UserRoles} from "./user-roles/user-roles.model";
-import { HateoasService } from './hateoas/hateoas.service';
-import { HateoasController } from './hateoas/hateoas.controller';
 import { HateoasModule } from './hateoas/hateoas.module';
-import { AuthModule } from './auth/auth.module';
+import { WorkingPersonModule } from './working-person/working-person.module';
+import { PostsModule } from './posts/posts.module';
+import { CutterModule } from './cutter/cutter.module';
+import { CutModule } from './cut/cut.module';
+import { OperationModule } from './operation/operation.module';
+import { SeamstressModule } from './seamstress/seamstress.module';
+import { SizeController } from './size/size.controller';
+import { SizeService } from './size/size.service';
+import { SizeModule } from './size/size.module';
+import { ModelModule } from './model/model.module';
+import { AgeModule } from './age/age.module';
+import {WorkingPerson} from "./working-person/working-person.model";
+import {Post} from "./posts/posts.model";
+import {Cutter} from "./cutter/cutter.model";
+import {Models} from "./model/model.model";
+import {Size} from "./size/size.model";
+import {Age} from "./age/age.model";
+import {Seamstress} from "./seamstress/seamstress.model";
+import {Operation} from "./operation/operation.model";
+import {Cut} from "./cut/cut.model";
 
 
 @Module({
-    controllers: [HateoasController],
-    providers: [HateoasService],
+    controllers: [SizeController],
+    providers: [SizeService],
     imports: [
         ConfigModule.forRoot({
             envFilePath: `.${process.env.NODE_ENV}.env`
@@ -27,13 +39,19 @@ import { AuthModule } from './auth/auth.module';
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_TABLE_NAME,
-            models: [User, Role, UserRoles],
+            models: [WorkingPerson, Post, Cutter, Models, Size, Age, Seamstress, Operation, Cut],
             autoLoadModels: true
         }),
-        UsersModule,
-        RolesModule,
         HateoasModule,
-        AuthModule,
+        WorkingPersonModule,
+        PostsModule,
+        CutterModule,
+        CutModule,
+        OperationModule,
+        SeamstressModule,
+        SizeModule,
+        ModelModule,
+        AgeModule,
     ]
 })
 export class AppModule{}
