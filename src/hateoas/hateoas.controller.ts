@@ -5,10 +5,10 @@ import {HateoasService} from "./hateoas.service";
 @ApiTags('Ссылки')
 @Controller('')
 export class HateoasController {
-    constructor(private readonly roleService: HateoasService) {}
+    constructor(private readonly hateoasService: HateoasService) {}
     
     @Get()
     getAll(): Object[]{
-        return this.roleService.getAll();
+        return this.hateoasService.getAll();
     }
 }
