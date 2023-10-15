@@ -17,7 +17,7 @@ async function start(){
 
     const document: OpenAPIObject = SwaggerModule.createDocument(application, config);
 
-    SwaggerModule.setup('/api/swagger', application, document);
+    SwaggerModule.setup('/api/docs', application, document);
 
     await application.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 }
