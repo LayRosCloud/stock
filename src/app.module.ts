@@ -28,7 +28,7 @@ import { ModelSize } from "./modelsizes/modelsizes.model";
 import { ClothOperation } from "./clothoperations/clothoperations.model";
 
 @Module({
-    controllers: [PostsController],
+    controllers: [],
     providers: [],
     imports: [
         ConfigModule.forRoot({

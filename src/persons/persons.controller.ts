@@ -29,17 +29,22 @@ export class PersonsController {
     async register(@Body() dto: CreatePersonDto){
         return await this.personsService.register(dto);
     }
-
+    @ApiOperation({summary: 'Валидация пользователей'})
+    @ApiResponse({status: 200, type: Person})
+    @Post('/login')
+    async login(@Body() dto: CreatePersonDto){
+        return await this.personsService.register(dto);
+    }
     @ApiOperation({summary: 'Обновление данных пользователя'})
     @ApiResponse({status: 200, type: Person})
     @Put('/:id')
     async update(@Body() dto: CreatePersonDto, @Param('id') id: number){
-        
+        return await this.personsService.update(id, dto);
     }
     @ApiOperation({summary: 'Удаление пользователя'})
     @ApiResponse({status: 200})
     @Delete('/:id')
     async delete(@Param('id') id: number){
-        
+        return await this.personsService.delete(id);
     }
 }
