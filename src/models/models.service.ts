@@ -4,13 +4,14 @@ import {ModelSize} from "../modelsizes/modelsizes.model";
 import {CreateModelSizeDto} from "../modelsizes/dto/create-modelsize.dto";
 import {ModelEntity} from "./models.model";
 import {CreateModelDto} from "./dto/create-model.dto";
+import {Size} from "../sizes/sizes.model";
 
 @Injectable()
 export class ModelsService {
     constructor(@InjectModel(ModelEntity) private readonly modelRepository: typeof ModelEntity){}
 
     async getAll(){
-        const models = await this.modelRepository.findAll();
+        const models = await this.modelRepository.findAll({include: [Size]});
 
         return models;
     }

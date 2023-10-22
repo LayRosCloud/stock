@@ -3,6 +3,7 @@ import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {PersonsService} from "./persons.service";
 import { CreatePersonDto } from './dto/create-person.dto';
 import { Person } from './persons.model';
+import {LoginPersonDto} from "./dto/login-person.dto";
 
 @ApiTags('Люди')
 @Controller('/v1/persons')
@@ -32,8 +33,8 @@ export class PersonsController {
     @ApiOperation({summary: 'Валидация пользователей'})
     @ApiResponse({status: 200, type: Person})
     @Post('/login')
-    async login(@Body() dto: CreatePersonDto){
-        return await this.personsService.register(dto);
+    async login(@Body() dto: LoginPersonDto){
+        return await this.personsService.login(dto);
     }
     @ApiOperation({summary: 'Обновление данных пользователя'})
     @ApiResponse({status: 200, type: Person})

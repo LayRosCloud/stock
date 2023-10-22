@@ -10,7 +10,7 @@ export interface IPersonCreationAttrs{
     
     password: string;
 
-    lastname: string;
+    lastName: string;
 
     firstName: string;
 
@@ -31,7 +31,7 @@ export class Person extends Model<Person, IPersonCreationAttrs>{
     email: string;
     
     @ApiProperty({example: '1234567890', description: 'Пароль пользователя'})
-    @Column({type: DataType.STRING(50), allowNull: false})
+    @Column({type: DataType.STRING(300), allowNull: false})
     password: string;
 
     @ApiProperty({example: 'Иванов', description: 'Фамилия пользователя'})
@@ -58,9 +58,9 @@ export class Person extends Model<Person, IPersonCreationAttrs>{
     @BelongsToMany(() => Post, () => Permission)
     posts: Post[];
 
-    @HasMany(()=>Party)
+    @HasMany(() => Party)
     parties: Party[];
 
-    @HasMany(()=>ClothOperation)
+    @HasMany(() => ClothOperation)
     clothOperations: ClothOperation[];
 }

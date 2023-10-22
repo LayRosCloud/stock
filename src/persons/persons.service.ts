@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Person } from './persons.model';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import {LoginPersonDto} from "./dto/login-person.dto";
 
 @Injectable()

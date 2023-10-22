@@ -64,6 +64,6 @@ export class Party extends Model<Party, IPartyCreationAttrs>{
     @BelongsTo(()=> ModelEntity)
     model: Model;
 
-    @HasMany(()=> ClothOperation)
+    @HasMany(()=> ClothOperation, {onDelete: 'CASCADE'})
     clothOperations: ClothOperation[];
 }

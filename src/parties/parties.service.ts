@@ -2,20 +2,21 @@ import { Injectable } from '@nestjs/common';
 import {InjectModel} from "@nestjs/sequelize";
 import {Party} from "./parties.model";
 import {CreatePartyDto} from "./dto/create-party.dto";
+import {Size} from "../sizes/sizes.model";
+import {ModelEntity} from "../models/models.model";
+import {Person} from "../persons/persons.model";
 
 @Injectable()
 export class PartiesService {
     constructor(@InjectModel(Party) private readonly partyRepository: typeof Party){}
 
     async getAll(){
-        const parties = await this.partyRepository.findAll();
-
+        const parties = await this.partyRepository.findAll({include: [Size, ModelEntity, Person]});
         return parties;
     }
 
     async get(id: number){
-        const party =  await this.partyRepository.findByPk(id);
-
+        const party =  await this.partyRepository.findByPk(id, {include: [Size, ModelEntity, Person]});
         return party;
     }
 

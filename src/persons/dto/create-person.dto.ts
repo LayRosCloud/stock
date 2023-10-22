@@ -9,7 +9,7 @@ export class CreatePersonDto implements IPersonCreationAttrs{
     password: string;
 
     @ApiProperty({example: 'Иванов', required: true, description: 'Фамилия пользователя'})
-    readonly lastname: string;
+    readonly lastName: string;
 
     @ApiProperty({example: 'Иван', required: true, description: 'Имя пользователя'})
     readonly firstName: string;

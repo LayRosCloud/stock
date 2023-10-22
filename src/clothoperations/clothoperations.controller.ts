@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
+import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
 import { ClothOperation } from './clothoperations.model';
 import { CreateClothOperationDto } from './dto/create-clothoperation.dto';
 import {ClothoperationsService} from "./clothoperations.service";
@@ -12,9 +12,10 @@ export class ClothoperationsController {
 
     @ApiOperation({summary: 'Получение всех операций партии'})
     @ApiResponse({status: 200, type: [ClothOperation]})
+    @ApiQuery({name: 'partyId', required: false})
     @Get()
-    async getAll(){
-        return await this.clothOperationsRepository.getAll();
+    async getAll(@Query('partyId') partyId?: number){
+        return await this.clothOperationsRepository.getAll(partyId);
     }
 
     @ApiOperation({summary: 'Получение операции на партии по id'})
