@@ -11,6 +11,9 @@ import { Permission } from 'src/permissions/permissions.model';
   providers: [PostsService],
   imports: [
     SequelizeModule.forFeature([Post, Person, Permission])
-]
+  ],
+  exports: [
+      PostsService
+  ]
 })
 export class PostsModule {}

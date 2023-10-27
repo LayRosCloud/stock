@@ -20,6 +20,12 @@ export class PostsService {
         return post;
     }
 
+    async getByValue(name: string){
+        const post =  await this.postsRepository.findOne({where: {name}});
+
+        return post;
+    }
+
     async create(dto: CreatePostDto){
         const post = await this.postsRepository.create(dto);
         return post;

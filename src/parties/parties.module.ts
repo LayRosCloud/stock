@@ -4,15 +4,15 @@ import { PartiesController } from './parties.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Party } from './parties.model';
 import { ModelEntity } from 'src/models/models.model';
-import { ClothOperation } from 'src/clothoperations/clothoperations.model';
 import { Size } from 'src/sizes/sizes.model';
 import { Person } from 'src/persons/persons.model';
+import {Package} from "../packages/packages.model";
 
 @Module({
   providers: [PartiesService],
   controllers: [PartiesController],
   imports: [
-    SequelizeModule.forFeature([Party, ModelEntity, ClothOperation, Person, Size])
+    SequelizeModule.forFeature([Party, ModelEntity, Package, Person, Size])
 ]
 })
 export class PartiesModule {}

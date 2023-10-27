@@ -26,6 +26,9 @@ import { Party } from "./parties/parties.model";
 import { Operation } from "./operations/operations.model";
 import { ModelSize } from "./modelsizes/modelsizes.model";
 import { ClothOperation } from "./clothoperations/clothoperations.model";
+import { PackagesModule } from './packages/packages.module';
+import {Package} from "./packages/packages.model";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     controllers: [],
@@ -44,7 +47,7 @@ import { ClothOperation } from "./clothoperations/clothoperations.model";
             models: [Person, Age, Size, 
                     Price, ModelEntity, Post, 
                     Permission, Party, Operation, 
-                    ModelSize, ClothOperation],
+                    ModelSize, ClothOperation, Package],
             autoLoadModels: true
         }),
         HateoasModule,
@@ -58,7 +61,9 @@ import { ClothOperation } from "./clothoperations/clothoperations.model";
         ModelsizesModule,
         ModelsModule,
         AgesModule,
-        ClothoperationsModule
+        ClothoperationsModule,
+        PackagesModule,
+        AuthModule
     ]
 })
 export class AppModule{}

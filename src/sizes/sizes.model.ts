@@ -7,7 +7,7 @@ import { Party } from "src/parties/parties.model";
 
 export interface ISizeCreationAttrs{
     name: string;
-    number: number;
+    number: string;
     ageId: number;
 }
 
@@ -18,12 +18,12 @@ export class Size extends Model<Size, ISizeCreationAttrs>{
     id: number;
 
     @ApiProperty({example: 'XS', description: 'Американское наименование размера'})
-    @Column({type: DataType.STRING(5), allowNull: false, unique: true})
+    @Column({type: DataType.STRING(5), allowNull: false})
     name: string;
 
-    @ApiProperty({example: 50, description: 'Цифровой эквивалент'})
-    @Column({type: DataType.INTEGER, allowNull: false})
-    number: number;
+    @ApiProperty({example: '50-52', description: 'Цифровой эквивалент'})
+    @Column({type: DataType.STRING(10), allowNull: false})
+    number: string;
 
     @ApiProperty({example: 1, description: 'К какой категории возраста относится'})
     @ForeignKey(()=> Age)
@@ -35,7 +35,4 @@ export class Size extends Model<Size, ISizeCreationAttrs>{
 
     @BelongsToMany(()=> ModelEntity, ()=> ModelSize)
     models: Model[];
-
-    @HasMany(()=> Party)
-    parties: Party[] 
 }
