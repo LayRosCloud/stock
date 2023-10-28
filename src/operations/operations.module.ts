@@ -5,12 +5,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Operation } from './operations.model';
 import { ClothOperation } from 'src/clothoperations/clothoperations.model';
 import { Price } from 'src/prices/prices.model';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [OperationsController],
   providers: [OperationsService],
   imports: [
-    SequelizeModule.forFeature([Operation, ClothOperation, Price])
+    SequelizeModule.forFeature([Operation, ClothOperation, Price]),
+    AuthModule
   ]
 })
 export class OperationsModule {}

@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Age } from './ages.model';
 import { CreateAgeDto } from './dto/create-age.dto';
 import {ClothoperationsService} from "../clothoperations/clothoperations.service";
 import {AgesService} from "./ages.service";
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @ApiTags('Возрастные группы')
 @Controller('/v1/ages')
@@ -13,6 +15,8 @@ export class AgesController {
 
     @ApiOperation({summary: 'Получение всех возрастных групп'})
     @ApiResponse({status: 200, type: [Age]})
+    @Roles('ADMIN')
+    @UseGuards(RolesGuard)
     @Get()
     async getAll(){
         return this.agesRepository.getAll();
@@ -20,6 +24,8 @@ export class AgesController {
 
     @ApiOperation({summary: 'Получение возрастной группы по id'})
     @ApiResponse({status: 200, type: Age})
+    @Roles('ADMIN')
+    @UseGuards(RolesGuard)
     @Get('/:id')
     async get(@Param('id') id:number){
         return this.agesRepository.get(id);
@@ -27,6 +33,8 @@ export class AgesController {
 
     @ApiOperation({summary: 'Создание возрастной группы'})
     @ApiResponse({status: 200, type: Age})
+    @Roles('ADMIN')
+    @UseGuards(RolesGuard)
     @Post()
     async create(@Body()  dto: CreateAgeDto){
         return this.agesRepository.create(dto)
@@ -34,6 +42,8 @@ export class AgesController {
     
     @ApiOperation({summary: 'Обновление данных возрастной группы по id'})
     @ApiResponse({status: 200, type: Age})
+    @Roles('ADMIN')
+    @UseGuards(RolesGuard)
     @Put('/:id')
     async update(@Body()  dto: CreateAgeDto, @Param('id') id: number){
         return this.agesRepository.update(id, dto)
@@ -41,6 +51,8 @@ export class AgesController {
 
     @ApiOperation({summary: 'Удаление возрастной группы по id'})
     @ApiResponse({status: 200})
+    @Roles('ADMIN')
+    @UseGuards(RolesGuard)
     @Delete('/:id')
     async delete(@Param('id') id: number){
         return this.agesRepository.delete(id)

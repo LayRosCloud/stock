@@ -6,12 +6,14 @@ import { ModelEntity } from './models.model';
 import { Size } from 'src/sizes/sizes.model';
 import { ModelSize } from 'src/modelsizes/modelsizes.model';
 import { Party } from 'src/parties/parties.model';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [ModelsController],
   providers: [ModelsService],
   imports: [
-    SequelizeModule.forFeature([ModelEntity, Size, ModelSize, Party])
+    SequelizeModule.forFeature([ModelEntity, Size, ModelSize, Party]),
+    AuthModule
 ]
 })
 export class ModelsModule {}

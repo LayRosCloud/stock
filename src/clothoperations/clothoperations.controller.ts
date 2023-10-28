@@ -3,6 +3,7 @@ import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
 import { ClothOperation } from './clothoperations.model';
 import { CreateClothOperationDto } from './dto/create-clothoperation.dto';
 import {ClothoperationsService} from "./clothoperations.service";
+import { Roles } from 'src/auth/roles.decorator';
 
 @ApiTags('Операции над партией')
 @Controller('/v1/clothoperations')
@@ -13,6 +14,7 @@ export class ClothoperationsController {
     @ApiOperation({summary: 'Получение всех операций партии'})
     @ApiResponse({status: 200, type: [ClothOperation]})
     @ApiQuery({name: 'partyId', required: false})
+    @Roles('ADMIN')
     @Get()
     async getAll(@Query('partyId') partyId?: number){
         return await this.clothOperationsRepository.getAll(partyId);
@@ -20,6 +22,7 @@ export class ClothoperationsController {
 
     @ApiOperation({summary: 'Получение операции на партии по id'})
     @ApiResponse({status: 200, type: ClothOperation})
+    @Roles('ADMIN')
     @Get('/:id')
     async get(@Param('id') id:number){
         return await this.clothOperationsRepository.get(id);
@@ -27,6 +30,7 @@ export class ClothoperationsController {
 
     @ApiOperation({summary: 'Создание операции на партии'})
     @ApiResponse({status: 200, type: ClothOperation})
+    @Roles('ADMIN')
     @Post()
     async create(@Body() dto: CreateClothOperationDto){
         return await this.clothOperationsRepository.create(dto);
@@ -34,6 +38,7 @@ export class ClothoperationsController {
     
     @ApiOperation({summary: 'Обновление данных операции на партии по id'})
     @ApiResponse({status: 200, type: ClothOperation})
+    @Roles('ADMIN')
     @Put('/:id')
     async update(@Body()  dto: CreateClothOperationDto, @Param('id') id: number){
         return await this.clothOperationsRepository.update(id, dto);
@@ -41,6 +46,7 @@ export class ClothoperationsController {
 
     @ApiOperation({summary: 'Удаление операции на партии по id'})
     @ApiResponse({status: 200})
+    @Roles('ADMIN')
     @Delete('/:id')
     async delete(@Param('id') id: number){
         return await this.clothOperationsRepository.delete(id);

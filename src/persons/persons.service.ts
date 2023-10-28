@@ -22,9 +22,6 @@ export class PersonsService {
 
     async getByEmail(email: string): Promise<Person>{
         const person: Person = await this.personRepository.findOne({include: [Post]});
-        if(!person){
-            throw new BadRequestException('Error! Person with this email not found')
-        }
         return person;
     }
 

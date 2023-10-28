@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import {JwtModule} from "@nestjs/jwt";
 import {PersonsModule} from "../persons/persons.module";
+import { JwtAuthGuard } from './jwt.auth.guard';
 
 @Module({
   providers: [AuthService],
@@ -14,7 +15,11 @@ import {PersonsModule} from "../persons/persons.module";
         expiresIn: '24h'
       }
     }),
-      PersonsModule
+      forwardRef(()=>PersonsModule)
+  ],
+  exports: [
+    AuthService,
+    JwtModule
   ]
 })
 export class AuthModule {}

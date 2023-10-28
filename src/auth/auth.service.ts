@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {PersonsService} from "../persons/persons.service";
 import {JwtService} from "@nestjs/jwt";
 import {CreatePersonDto} from "../persons/dto/create-person.dto";
@@ -19,8 +19,10 @@ export class AuthService {
     }
 
     async registration(personDto: CreatePersonDto){
-        await this.personsService.getByEmail(personDto.email);
-
+        const personFounded = await this.personsService.getByEmail(personDto.email);
+        if(personFounded){
+            throw new BadRequestException('Error! User with email has in db')
+        }
         const person = await this.personsService.register(personDto)
 
         return this.generateToken(person)
