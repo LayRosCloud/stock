@@ -1,19 +1,22 @@
 import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {CreatePersonDto} from './dto/create-person.dto';
-import {InjectModel} from '@nestjs/sequelize';
+import {InjectConnection, InjectModel} from '@nestjs/sequelize';
 import {Person} from './persons.model';
 import * as bcrypt from 'bcrypt';
 import {LoginPersonDto} from "./dto/login-person.dto";
 import {GetterPersonDto} from "./dto/getter-person.dto";
 import {PostsService} from "../posts/posts.service";
 import Post from "../posts/posts.model";
-import {JwtService} from "@nestjs/jwt";
+import { Op, Sequelize, Transaction } from 'sequelize';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class PersonsService {
 
     constructor(@InjectModel(Person) private readonly personRepository: typeof Person,
-                private readonly postsService: PostsService){}
+                private readonly postsService: PostsService,
+                @InjectConnection()
+                private readonly sequelizeInstance: Sequelize){}
 
     async getAll(): Promise<GetterPersonDto[]>{
         const persons: Person[] = await this.personRepository.findAll({include: [Post]});
@@ -21,7 +24,7 @@ export class PersonsService {
     }
 
     async getByEmail(email: string): Promise<Person>{
-        const person: Person = await this.personRepository.findOne({include: [Post]});
+        const person: Person = await this.personRepository.findOne({include: [Post], where: {email}});
         return person;
     }
 
@@ -35,14 +38,27 @@ export class PersonsService {
     }
 
     async register(dto: CreatePersonDto){
+        let person: Person;
+
         dto.password = await bcrypt.hash(dto.password, 4)
+        const transaction: Transaction = await this.sequelizeInstance.transaction();
+        const finded = await this.personRepository.findOne({where: {[Op.or]: [{uid: dto.uid}, {email: dto.email}]}, transaction})
+        try{
 
-        const person: Person = await this.personRepository.create(dto, {include: [Post]});
-        const post: Post = await this.postsService.getByValue('EMPLOYEE');
-
-        await person.$set('posts', [post.id]);
-
-        person.posts.push(post)
+            if(finded){
+                throw new BadRequestException('Ошибка! такой пользователь существует!')
+            }
+            person = await this.personRepository.create(dto, {include: [Post], transaction});
+            const post: Post = await this.postsService.getByValue('EMPLOYEE');
+    
+            await person.$set('posts', [post.id], {transaction});
+            person.posts = [post];
+            transaction.commit();
+        }catch(e){
+            transaction.rollback();
+            throw e;
+        }
+        
 
         return person;
     }

@@ -1,5 +1,5 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from '@nestjs/common';
-import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
+import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {PackagesService} from "./packages.service";
 import {Package} from "./packages.model";
 import {CreatePackageDto} from "./dto/create-package.dto";
@@ -13,11 +13,13 @@ export class PackagesController {
 
     @ApiOperation({summary: 'Получение всех пачек'})
     @ApiResponse({status: 200, type: [Package]})
+    @ApiQuery({name: 'partyId', required: false})
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Get()
-    async getAll(): Promise<Package[]>{
-        return await this.packagesService.getAll();
+    async getAll(@Req() req): Promise<Package[]>{
+        const partyId = req.query['partyId']
+        return await this.packagesService.getAll(partyId);
     }
 
     @ApiOperation({summary: 'Получение пачки по id'})

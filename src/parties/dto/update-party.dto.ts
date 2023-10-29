@@ -1,9 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IPartyCreationAttrs } from "../parties.model";
-import { IsDateString, IsNumber } from "class-validator";
+import { IsBoolean, IsDateString, IsNumber } from "class-validator";
 
 
-export class CreatePartyDto implements IPartyCreationAttrs{
+export class UpdatePartyDto{
     @ApiProperty({example: 1, description: 'id модели'})
     @IsNumber({},{message: 'Должно быть числом'})
     modelId: number;
@@ -20,6 +19,14 @@ export class CreatePartyDto implements IPartyCreationAttrs{
     @IsDateString({},{message: 'Должно быть датой'})
     dateStart: Date;
 
+    @ApiProperty({example: '2010-01-13', description: 'Дата конца партии'})
+    @IsDateString({},{message: 'Должно быть датой'})
+    dateEnd: Date;
+
+    @ApiProperty({example: false, description: 'Забракована ли?'})
+    @IsBoolean({message: 'Должно быть булевым'})
+    isDefected: boolean;
+
     @ApiProperty({example: 1, description: 'Номер крои'})
     @IsNumber({},{message: 'Должно быть числом'})
     cutNumber: number;
@@ -27,5 +34,4 @@ export class CreatePartyDto implements IPartyCreationAttrs{
     @ApiProperty({example: 1, description: 'Размер выбранной модели'})
     @IsNumber({},{message: 'Должно быть числом'})
     sizeId: number;
-
 }

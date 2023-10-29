@@ -1,9 +1,10 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
+import {Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req} from '@nestjs/common';
 import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
 import { ClothOperation } from './clothoperations.model';
 import { CreateClothOperationDto } from './dto/create-clothoperation.dto';
 import {ClothoperationsService} from "./clothoperations.service";
 import { Roles } from 'src/auth/roles.decorator';
+import { UpdateClothOperationDto } from './dto/update-clothoperation.dto';
 
 @ApiTags('Операции над партией')
 @Controller('/v1/clothoperations')
@@ -13,11 +14,12 @@ export class ClothoperationsController {
 
     @ApiOperation({summary: 'Получение всех операций партии'})
     @ApiResponse({status: 200, type: [ClothOperation]})
-    @ApiQuery({name: 'partyId', required: false})
+    @ApiQuery({name: 'packageId', required: false})
     @Roles('ADMIN')
     @Get()
-    async getAll(@Query('partyId') partyId?: number){
-        return await this.clothOperationsRepository.getAll(partyId);
+    async getAll(@Req() req){
+        const packageId = req.query['packageId']
+        return await this.clothOperationsRepository.getAll(packageId);
     }
 
     @ApiOperation({summary: 'Получение операции на партии по id'})
@@ -40,7 +42,7 @@ export class ClothoperationsController {
     @ApiResponse({status: 200, type: ClothOperation})
     @Roles('ADMIN')
     @Put('/:id')
-    async update(@Body()  dto: CreateClothOperationDto, @Param('id') id: number){
+    async update(@Body()  dto: UpdateClothOperationDto, @Param('id') id: number){
         return await this.clothOperationsRepository.update(id, dto);
     }
 

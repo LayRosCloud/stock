@@ -19,10 +19,6 @@ export class AuthService {
     }
 
     async registration(personDto: CreatePersonDto){
-        const personFounded = await this.personsService.getByEmail(personDto.email);
-        if(personFounded){
-            throw new BadRequestException('Error! User with email has in db')
-        }
         const person = await this.personsService.register(personDto)
 
         return this.generateToken(person)

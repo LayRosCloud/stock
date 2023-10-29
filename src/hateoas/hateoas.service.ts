@@ -7,9 +7,24 @@ export class HateoasService {
         const links: Object[] = [{
             rel: 'links',
             link: '/',
+        },
+        {
+            rel: 'docs',
+            link: '/api/docs/'
         }]
-        this.#add('users', links);
-        this.#add('roles', links);
+        this.#add('persons', links);
+        this.#add('posts', links);
+        this.#add('permissions', links);
+        this.#add('packages', links);
+        this.#add('prices', links);
+        this.#add('sizes', links);
+        this.#add('parties', links);
+        this.#add('models', links);
+        this.#add('modelsizes', links);
+        this.#add('operations', links);
+        this.#add('auth', links);
+        this.#add('clothoperations', links);
+        this.#add('ages', links);
         return links;
     }
 

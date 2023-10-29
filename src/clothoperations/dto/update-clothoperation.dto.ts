@@ -1,9 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IClothOperationCreationAttrs } from "../clothoperations.model";
-import { IsDateString, IsNumber } from "class-validator";
+import { IsDateString, IsNumber, IsBoolean } from "class-validator";
 
 
-export class CreateClothOperationDto implements IClothOperationCreationAttrs{
+export class UpdateClothOperationDto{
     @ApiProperty({example: 1, description: 'Id операции'})
     @IsNumber({},{message: 'Должно быть числом'})
     operationId: number;
@@ -23,4 +22,8 @@ export class CreateClothOperationDto implements IClothOperationCreationAttrs{
     @ApiProperty({example: '2010-10-10', description: 'Дата начала операции'})
     @IsDateString({},{message: 'Должно быть число'})
     dateStart: Date;
+
+    @ApiProperty({example: false, description: 'Закончена ли операция'})
+    @IsBoolean({message: 'Должно быть булевым'})
+    isEnded: boolean
 }

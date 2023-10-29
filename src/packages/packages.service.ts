@@ -14,9 +14,13 @@ export class PackagesService {
             private readonly packageRepository: typeof Package
     ) { }
 
-    async getAll(){
-        const packages = await this.packageRepository.findAll();
-        return packages;
+    async getAll(partyId?: number){
+        if(partyId){
+            return await this.packageRepository.findAll({where: {partyId}});
+        }
+        else{
+            return await this.packageRepository.findAll();
+        }
     }
 
     async get(id: number){

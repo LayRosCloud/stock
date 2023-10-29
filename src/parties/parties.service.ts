@@ -5,6 +5,7 @@ import {CreatePartyDto} from "./dto/create-party.dto";
 import {Size} from "../sizes/sizes.model";
 import {ModelEntity} from "../models/models.model";
 import {Person} from "../persons/persons.model";
+import { UpdatePartyDto } from './dto/update-party.dto';
 
 @Injectable()
 export class PartiesService {
@@ -25,7 +26,7 @@ export class PartiesService {
         return party;
     }
 
-    async update(id: number, dto: CreatePartyDto){
+    async update(id: number, dto: UpdatePartyDto){
         await this.partyRepository.update(dto, {where: {id: id}});
         return this.get(id);
     }

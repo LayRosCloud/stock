@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, ForbiddenException, Get, Param, Post, Put, Req, UseGuards, UsePipes} from '@nestjs/common';
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {PersonsService} from "./persons.service";
 import { CreatePersonDto } from './dto/create-person.dto';
@@ -7,6 +7,7 @@ import {GetterPersonDto} from "./dto/getter-person.dto";
 import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { ValidationPipe } from 'src/pipes/validation.pipe';
 
 @ApiTags('Люди')
 @Controller('/v1/persons')
@@ -36,6 +37,7 @@ export class PersonsController {
     @ApiResponse({status: 201, type: GetterPersonDto})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
+    @UsePipes(ValidationPipe)
     @Post()
     async register(@Body() dto: CreatePersonDto){
         return await this.personsService.register(dto);
@@ -53,13 +55,17 @@ export class PersonsController {
     @Roles('EMPLOYEE')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body() dto: CreatePersonDto, @Param('id') id: number){
+    async update(@Body() dto: CreatePersonDto, @Param('id') id: number, @Req() req){
+        const user = req.user;
+        if(user.id !== id && !user.posts.includes('ADMIN')){
+            throw new ForbiddenException('Ошибка! Нет прав изменить другого человека!')
+        }
         return await this.personsService.update(id, dto);
     }
 
     @ApiOperation({summary: 'Удаление пользователя'})
     @ApiResponse({status: 200})
-    @Roles('EMPLOYEE')
+    @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
     async delete(@Param('id') id: number){

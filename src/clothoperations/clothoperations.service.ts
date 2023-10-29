@@ -6,17 +6,19 @@ import {Price} from "../prices/prices.model";
 import {Operation} from "../operations/operations.model";
 import {Person} from "../persons/persons.model";
 import {Package} from "../packages/packages.model";
+import { UpdateClothOperationDto } from './dto/update-clothoperation.dto';
 
 @Injectable()
 export class ClothoperationsService {
     constructor(@InjectModel(ClothOperation) private readonly clothOperationRepository: typeof ClothOperation){}
 
-    async getAll(packageId: number){
+    async getAll(packageId?){
         let clothOperations;
         if(packageId){
             clothOperations = this.clothOperationRepository.findAll({include: [Price, Operation, Person, Package], where: {packageId}})
         }
         else{
+            console.log('успех!');
             clothOperations = this.clothOperationRepository.findAll({include: [Price, Operation, Person, Package]})
         }
 
@@ -35,7 +37,7 @@ export class ClothoperationsService {
         return clothOperation;
     }
 
-    async update(id: number, dto: CreateClothOperationDto){
+    async update(id: number, dto: UpdateClothOperationDto){
         await this.clothOperationRepository.update(dto, {where: {id: id}});
         return this.get(id);
     }

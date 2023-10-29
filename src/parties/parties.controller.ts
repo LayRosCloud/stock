@@ -6,6 +6,7 @@ import {PermissionsService} from "../permissions/permissions.service";
 import {PartiesService} from "./parties.service";
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { UpdatePartyDto } from './dto/update-party.dto';
 
 @ApiTags('Партии')
 @Controller('/v1/parties')
@@ -44,7 +45,7 @@ export class PartiesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreatePartyDto, @Param('id') id: number){
+    async update(@Body()  dto: UpdatePartyDto, @Param('id') id: number){
         return await this.partiesService.update(id, dto);
     }
 
