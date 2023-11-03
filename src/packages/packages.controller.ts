@@ -1,10 +1,11 @@
 import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {PackagesService} from "./packages.service";
-import {Package} from "./packages.model";
-import {CreatePackageDto} from "./dto/create-package.dto";
+import { PackagesService } from "./packages.service";
+import { Package } from "./packages.model";
+import { CreatePackageDto } from "./dto/create-package.dto";
 import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { UpdatePackageDto } from "./dto/update-package.dto";
 
 @ApiTags('Пачки')
 @Controller('/v1/packages')
@@ -54,7 +55,7 @@ export class PackagesController {
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body() dto: CreatePackageDto, @Param('id') id: number){
+    async update(@Body() dto: UpdatePackageDto, @Param('id') id: number){
         return await this.packagesService.update(id, dto);
     }
 

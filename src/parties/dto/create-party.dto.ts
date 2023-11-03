@@ -12,10 +12,6 @@ export class CreatePartyDto implements IPartyCreationAttrs{
     @IsNumber({},{message: 'Должно быть числом'})
     personId: number;
 
-    @ApiProperty({example: 1, description: 'Количество партий'})
-    @IsNumber({},{message: 'Должно быть числом'})
-    count: number;
-
     @ApiProperty({example: '2010-01-13', description: 'Дата начала партии'})
     @IsDateString({},{message: 'Должно быть датой'})
     dateStart: Date;
@@ -23,9 +19,4 @@ export class CreatePartyDto implements IPartyCreationAttrs{
     @ApiProperty({example: 1, description: 'Номер крои'})
     @IsNumber({},{message: 'Должно быть числом'})
     cutNumber: number;
-
-    @ApiProperty({example: 1, description: 'Размер выбранной модели'})
-    @IsNumber({},{message: 'Должно быть числом'})
-    sizeId: number;
-
 }

@@ -53,9 +53,9 @@ export class PersonsService {
     
             await person.$set('posts', [post.id], {transaction});
             person.posts = [post];
-            transaction.commit();
+            await transaction.commit();
         }catch(e){
-            transaction.rollback();
+            await transaction.rollback();
             throw e;
         }
         

@@ -15,7 +15,7 @@ export class AuthService {
     async login(dto: LoginPersonDto){
         const person: Person = await this.validateToken(dto);
 
-        return this.generateToken(person)
+        return {token: this.generateToken(person).token, id: person.id, email: person.email}
     }
 
     async registration(personDto: CreatePersonDto){

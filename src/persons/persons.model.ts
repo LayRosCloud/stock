@@ -4,6 +4,7 @@ import { ClothOperation } from "src/clothoperations/clothoperations.model";
 import { Party } from "src/parties/parties.model";
 import { Permission } from "src/permissions/permissions.model";
 import Post from "src/posts/posts.model";
+import {Package} from "../packages/packages.model";
 
 export interface IPersonCreationAttrs{
     email: string;
@@ -60,6 +61,9 @@ export class Person extends Model<Person, IPersonCreationAttrs>{
 
     @HasMany(() => Party)
     parties: Party[];
+
+    @HasMany(() => Package)
+    packages: Package[];
 
     @HasMany(() => ClothOperation)
     clothOperations: ClothOperation[];

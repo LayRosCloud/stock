@@ -6,6 +6,7 @@ import {ModelEntity} from "../models/models.model";
 import {Person} from "../persons/persons.model";
 import {CreatePartyDto} from "../parties/dto/create-party.dto";
 import {CreatePackageDto} from "./dto/create-package.dto";
+import {UpdatePackageDto} from "./dto/update-package.dto";
 
 @Injectable()
 export class PackagesService {
@@ -42,7 +43,7 @@ export class PackagesService {
         return newList;
     }
 
-    async update(id: number, dto: CreatePackageDto){
+    async update(id: number, dto: UpdatePackageDto){
         await this.packageRepository.update(dto, {where: {id: id}});
         return this.get(id);
     }

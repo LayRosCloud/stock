@@ -1,18 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Model, DataType, Column, Table, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
-import { ClothOperation } from "src/clothoperations/clothoperations.model";
 import { ModelEntity } from "src/models/models.model";
 import { Person } from "src/persons/persons.model";
-import { Size } from "src/sizes/sizes.model";
 import {Package} from "../packages/packages.model";
 
 export interface IPartyCreationAttrs{
     modelId: number;
     personId: number;
-    count: number;
     dateStart: Date;
     cutNumber: number
-    sizeId: number
 }
 
 
@@ -39,10 +35,6 @@ export class Party extends Model<Party, IPartyCreationAttrs>{
     @ApiProperty({example: '2010-02-13', description: 'Дата окончания партии'})
     @Column({type: DataType.DATEONLY, allowNull: true})
     dateEnd: Date;
-
-    @ApiProperty({example: false, required: false, description: 'Забракована ли партия?'})
-    @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
-    isDefected: boolean;
 
     @ApiProperty({example: 1, description: 'Номер крои'})
     @Column({type: DataType.INTEGER, allowNull: false})
