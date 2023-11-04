@@ -19,7 +19,7 @@ export class PersonsService {
                 private readonly sequelizeInstance: Sequelize){}
 
     async getAll(): Promise<GetterPersonDto[]>{
-        const persons: Person[] = await this.personRepository.findAll({include: [Post]});
+        const persons: Person[] = await this.personRepository.findAll({include: [Post], attributes: { exclude: ['password'] }});
         return persons.map(person => new GetterPersonDto(person));
     }
 
@@ -29,12 +29,12 @@ export class PersonsService {
     }
 
     async get(id: number){
-        const person = await this.personRepository.findByPk(id, {include: [Post]});
+        const person = await this.personRepository.findByPk(id, {include: [Post], attributes: { exclude: ['password'] }});
         if(!person){
             throw new NotFoundException(`Error! Object Person with id ${id} not found!`);
         }
 
-        return new GetterPersonDto(person);
+        return person;
     }
 
     async register(dto: CreatePersonDto){
@@ -58,7 +58,6 @@ export class PersonsService {
             await transaction.rollback();
             throw e;
         }
-        
 
         return person;
     }

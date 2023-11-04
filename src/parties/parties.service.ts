@@ -5,20 +5,19 @@ import {CreatePartyDto} from "./dto/create-party.dto";
 import {ModelEntity} from "../models/models.model";
 import {Person} from "../persons/persons.model";
 import { UpdatePartyDto } from './dto/update-party.dto';
-import {Package} from "../packages/packages.model";
-import {Size} from "../sizes/sizes.model";
 
+const include = [ModelEntity, {model: Person, attributes: { exclude: ['password'] }}];
 @Injectable()
 export class PartiesService {
     constructor(@InjectModel(Party) private readonly partyRepository: typeof Party){}
 
     async getAll(){
-        const parties = await this.partyRepository.findAll({include: [ModelEntity, Person, {model: Package, include: [Size]}]});
+        const parties = await this.partyRepository.findAll({include});
         return parties;
     }
 
     async get(id: number){
-        const party =  await this.partyRepository.findByPk(id, {include: [ModelEntity, Person, Package]});
+        const party =  await this.partyRepository.findByPk(id, {include});
         return party;
     }
 

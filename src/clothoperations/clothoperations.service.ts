@@ -8,6 +8,7 @@ import {Person} from "../persons/persons.model";
 import {Package} from "../packages/packages.model";
 import { UpdateClothOperationDto } from './dto/update-clothoperation.dto';
 
+const include = [Price, Operation, Package, {model: Person, attributes: { exclude: ['password'] } }]
 @Injectable()
 export class ClothoperationsService {
     constructor(@InjectModel(ClothOperation) private readonly clothOperationRepository: typeof ClothOperation){}
@@ -15,11 +16,10 @@ export class ClothoperationsService {
     async getAll(packageId?){
         let clothOperations;
         if(packageId){
-            clothOperations = this.clothOperationRepository.findAll({include: [Price, Operation, Person, Package], where: {packageId}})
+            clothOperations = this.clothOperationRepository.findAll({include, where: {packageId}})
         }
         else{
-            console.log('успех!');
-            clothOperations = this.clothOperationRepository.findAll({include: [Price, Operation, Person, Package]})
+            clothOperations = this.clothOperationRepository.findAll({include})
         }
 
 

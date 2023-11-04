@@ -40,7 +40,6 @@ export class RolesGuard implements CanActivate{
             req.user = person;
             return person.posts.some((post: Post) => requiredPosts.includes(post.name));
         }catch(e){
-            console.log(e);
             throw new UnauthorizedException({message: 'Person is not authorizated'});
         }
     }
