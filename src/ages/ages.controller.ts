@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Age } from './ages.model';
 import { CreateAgeDto } from './dto/create-age.dto';
@@ -36,8 +36,8 @@ export class AgesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreateAgeDto){
-        return this.agesRepository.create(dto)
+    async create(@Body()  dto: CreateAgeDto, @Req() req){
+        return this.agesRepository.create(dto, req.user)
     }
     
     @ApiOperation({summary: 'Обновление данных возрастной группы по id'})
@@ -45,8 +45,8 @@ export class AgesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreateAgeDto, @Param('id') id: number){
-        return this.agesRepository.update(id, dto)
+    async update(@Body()  dto: CreateAgeDto, @Param('id') id: number, @Req() req){
+        return this.agesRepository.update(id, dto, req.user)
     }
 
     @ApiOperation({summary: 'Удаление возрастной группы по id'})
@@ -54,7 +54,7 @@ export class AgesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return this.agesRepository.delete(id)
+    async delete(@Param('id') id: number, @Req() req){
+        return this.agesRepository.delete(id, req.user)
     }
 }

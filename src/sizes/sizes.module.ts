@@ -7,13 +7,15 @@ import { Age } from 'src/ages/ages.model';
 import { ModelSize } from 'src/modelsizes/modelsizes.model';
 import { ModelEntity } from 'src/models/models.model';
 import { AuthModule } from 'src/auth/auth.module';
+import {HistoriesModule} from "../histories/histories.module";
 
 @Module({
   controllers: [SizesController],
   providers: [SizesService],
   imports: [
     SequelizeModule.forFeature([Size, Age, ModelSize, ModelEntity]),
-    AuthModule
+    AuthModule,
+    HistoriesModule
   ]
 })
 export class SizesModule {}

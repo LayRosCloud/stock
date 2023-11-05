@@ -11,8 +11,8 @@ export interface IPartyCreationAttrs{
     cutNumber: number
 }
 
-
-@Table({tableName: 'parties', timestamps: false})
+export const tableName: string = 'parties'
+@Table({tableName: tableName, timestamps: false})
 export class Party extends Model<Party, IPartyCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

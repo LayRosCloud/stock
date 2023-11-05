@@ -34,23 +34,23 @@ export class ClothoperationsController {
     @ApiResponse({status: 200, type: ClothOperation})
     @Roles('ADMIN')
     @Post()
-    async create(@Body() dto: CreateClothOperationDto){
-        return await this.clothOperationsRepository.create(dto);
+    async create(@Body() dto: CreateClothOperationDto, @Req() req){
+        return await this.clothOperationsRepository.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных операции на партии по id'})
     @ApiResponse({status: 200, type: ClothOperation})
     @Roles('ADMIN')
     @Put('/:id')
-    async update(@Body()  dto: UpdateClothOperationDto, @Param('id') id: number){
-        return await this.clothOperationsRepository.update(id, dto);
+    async update(@Body()  dto: UpdateClothOperationDto, @Param('id') id: number, @Req() req){
+        return await this.clothOperationsRepository.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление операции на партии по id'})
     @ApiResponse({status: 200})
     @Roles('ADMIN')
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return await this.clothOperationsRepository.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return await this.clothOperationsRepository.delete(id, req.user);
     }
 }

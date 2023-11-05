@@ -1,39 +1,120 @@
-import { Injectable } from '@nestjs/common';
-import {InjectModel} from "@nestjs/sequelize";
-import {Party} from "./parties.model";
+import {Injectable, NotFoundException} from '@nestjs/common';
+import {InjectConnection, InjectModel} from "@nestjs/sequelize";
+import {Party, tableName} from "./parties.model";
 import {CreatePartyDto} from "./dto/create-party.dto";
 import {ModelEntity} from "../models/models.model";
 import {Person} from "../persons/persons.model";
-import { UpdatePartyDto } from './dto/update-party.dto';
+import {HistoriesService} from "../histories/histories.service";
+import {Sequelize, Transaction} from "sequelize";
+import {CreateHistoryDto} from "../histories/dto/create-history.dto";
+import {Actions} from "../actions/action.model";
 
 const include = [ModelEntity, {model: Person, attributes: { exclude: ['password'] }}];
 @Injectable()
 export class PartiesService {
-    constructor(@InjectModel(Party) private readonly partyRepository: typeof Party){}
+    constructor(@InjectModel(Party)
+                private readonly partyRepository: typeof Party,
+                private readonly historyService: HistoriesService,
+                @InjectConnection()
+                private readonly sequelizeInstance: Sequelize
+    ){}
 
     async getAll(){
-        const parties = await this.partyRepository.findAll({include});
-        return parties;
+        const transaction: Transaction = await this.sequelizeInstance.transaction();
+
+        try{
+            const parties = await this.partyRepository.findAll({include, transaction});
+
+            await transaction.commit();
+
+            return parties;
+        }catch (e){
+            await transaction.rollback();
+            throw e;
+        }
+
     }
 
     async get(id: number){
-        const party =  await this.partyRepository.findByPk(id, {include});
-        return party;
+
+        const transaction = await this.sequelizeInstance.transaction();
+
+        try{
+            const party =  await this.partyRepository.findByPk(id, {include, transaction});
+            if(!party){
+                throw new NotFoundException(`Error! Object with id ${id} not found`);
+            }
+            await transaction.commit();
+
+            return party;
+        }catch (e){
+            await transaction.rollback();
+            throw e;
+        }
     }
 
-    async create(dto: CreatePartyDto){
-        const party = await this.partyRepository.create(dto);
-        return party;
+    async create(dto: CreatePartyDto, person: Person){
+
+        const transaction = await this.sequelizeInstance.transaction();
+
+        try{
+            const party = await this.partyRepository.create(dto, {transaction});
+            const historyDto: CreateHistoryDto = new CreateHistoryDto(
+                Actions.POST,
+                person.id,
+                tableName,
+                `Создана запись с полями ${dto.cutNumber}`)
+            await this.historyService.create(historyDto, transaction)
+            await transaction.commit();
+
+            return party;
+
+        }catch (e){
+            await transaction.rollback();
+            throw e;
+        }
+
     }
 
-    async update(id: number, dto: UpdatePartyDto){
-        await this.partyRepository.update(dto, {where: {id: id}});
-        return this.get(id);
+    async update(id: number, dto: CreatePartyDto, person: Person){
+        const transaction = await this.sequelizeInstance.transaction();
+
+        try{
+            await this.partyRepository.update(dto, {where: {id},transaction});
+            const historyDto: CreateHistoryDto = new CreateHistoryDto(
+                Actions.UPDATE,
+                person.id,
+                tableName,
+                `Обновлена запись с полями ${dto.dateStart}`)
+            await this.historyService.create(historyDto, transaction)
+            await transaction.commit();
+
+            return this.get(id);
+
+        }catch (e){
+            await transaction.rollback();
+            throw e;
+        }
     }
 
-    async delete(id: number){
+    async delete(id: number, person: Person){
         await this.get(id)
-        await this.partyRepository.destroy({where: {id: id}});
-        return {status: 200, message: `Object with ${id} will be destroyed`}
+        const transaction = await this.sequelizeInstance.transaction();
+
+        try{
+            await this.partyRepository.destroy({where: {id: id}, transaction});
+            const historyDto: CreateHistoryDto = new CreateHistoryDto(
+                Actions.DELETE,
+                person.id,
+                tableName,
+                `Удалена запись с id = ${id}`)
+            await this.historyService.create(historyDto, transaction)
+            await transaction.commit();
+
+            return {status: 200, message: `Object with ${id} will be destroyed`}
+        }catch (e){
+            await transaction.rollback();
+            throw e;
+        }
     }
 }

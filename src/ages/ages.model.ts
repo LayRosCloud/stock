@@ -6,8 +6,8 @@ export interface IAgeCreationAttrs{
     name: string;
     description: string;
 }
-
-@Table({tableName: 'ages', timestamps: false})
+export const tableName: string = 'ages'
+@Table({tableName: tableName, timestamps: false})
 export class Age extends Model<Age, IAgeCreationAttrs>{
     @ApiProperty({example: 1, description: 'Универсальный идентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

@@ -7,8 +7,8 @@ export interface IPermissionCreationAttrs{
     personId: number;
     postId: number;
 }
-
-@Table({tableName: 'permissions', timestamps: false})
+export const tableName: string = 'permissions'
+@Table({tableName: tableName, timestamps: false})
 export class Permission extends Model<Permission, IPermissionCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

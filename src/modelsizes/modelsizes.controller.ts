@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ModelSize } from './modelsizes.model';
 import { CreateModelSizeDto } from './dto/create-modelsize.dto';
@@ -34,8 +34,8 @@ export class ModelsizesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreateModelSizeDto){
-        return await this.modelSizesService.create(dto);
+    async create(@Body()  dto: CreateModelSizeDto, @Req() req){
+        return await this.modelSizesService.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных размера одежды по id'})
@@ -43,8 +43,8 @@ export class ModelsizesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreateModelSizeDto, @Param('id') id: number){
-        return await this.modelSizesService.update(id, dto);
+    async update(@Body()  dto: CreateModelSizeDto, @Param('id') id: number, @Req() req){
+        return await this.modelSizesService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление размера одежды по id'})
@@ -52,7 +52,7 @@ export class ModelsizesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return await this.modelSizesService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return await this.modelSizesService.delete(id, req.user);
     }
 }

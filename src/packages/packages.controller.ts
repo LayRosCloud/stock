@@ -37,8 +37,8 @@ export class PackagesController {
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreatePackageDto){
-        return await this.packagesService.create(dto);
+    async create(@Body()  dto: CreatePackageDto, @Req() req){
+        return await this.packagesService.create(dto, req.user);
     }
 
     @ApiOperation({summary: 'Создание пачек'})
@@ -46,8 +46,8 @@ export class PackagesController {
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Post('/range')
-    async createRange(@Body() dtos: CreatePackageDto[]){
-        return await this.packagesService.createRange(dtos);
+    async createRange(@Body() dtos: CreatePackageDto[], @Req() req){
+        return await this.packagesService.createRange(dtos, req.user);
     }
 
     @ApiOperation({summary: 'Обновление данных пачки по id'})
@@ -55,8 +55,8 @@ export class PackagesController {
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body() dto: UpdatePackageDto, @Param('id') id: number){
-        return await this.packagesService.update(id, dto);
+    async update(@Body() dto: UpdatePackageDto, @Param('id') id: number, @Req() req){
+        return await this.packagesService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление пачки по id'})
@@ -64,7 +64,7 @@ export class PackagesController {
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return await this.packagesService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return await this.packagesService.delete(id, req.user);
     }
 }

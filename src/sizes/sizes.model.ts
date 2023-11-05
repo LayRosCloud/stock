@@ -10,8 +10,8 @@ export interface ISizeCreationAttrs{
     number: string;
     ageId: number;
 }
-
-@Table({tableName: 'sizes', timestamps: false})
+export const tableName: string = 'sizes';
+@Table({tableName: tableName, timestamps: false})
 export class Size extends Model<Size, ISizeCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

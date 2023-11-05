@@ -11,8 +11,8 @@ export interface IModelCreationAttrs{
     percent: number;
 }
 
-@ApiTags('Модели')
-@Table({tableName: 'models', timestamps: false})
+export const tableName: string = 'models'
+@Table({tableName: tableName, timestamps: false})
 export class ModelEntity extends Model<ModelEntity, IModelCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

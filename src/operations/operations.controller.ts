@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Operation } from './operations.model';
 import { CreateOperationDto } from './dto/create-operation.dto';
@@ -35,8 +35,8 @@ export class OperationsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreateOperationDto){
-        return this.operationsService.create(dto);
+    async create(@Body() dto: CreateOperationDto, @Req() req){
+        return this.operationsService.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных операций по id'})
@@ -44,8 +44,8 @@ export class OperationsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreateOperationDto, @Param('id') id: number){
-        return this.operationsService.update(id, dto);
+    async update(@Body()  dto: CreateOperationDto, @Param('id') id: number, @Req() req){
+        return this.operationsService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление операции по id'})
@@ -53,7 +53,7 @@ export class OperationsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return this.operationsService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return this.operationsService.delete(id, req.user);
     }
 }

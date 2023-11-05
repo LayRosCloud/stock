@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import {JwtModule} from "@nestjs/jwt";
 import {PersonsModule} from "../persons/persons.module";
-import { JwtAuthGuard } from './jwt.auth.guard';
+import {HistoriesModule} from "../histories/histories.module";
 
 @Module({
   providers: [AuthService],
@@ -15,7 +15,8 @@ import { JwtAuthGuard } from './jwt.auth.guard';
         expiresIn: '24h'
       }
     }),
-      forwardRef(()=>PersonsModule)
+      forwardRef(()=>PersonsModule),
+    HistoriesModule
   ],
   exports: [
     AuthService,

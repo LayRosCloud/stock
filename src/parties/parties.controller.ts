@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Party } from './parties.model';
 import { CreatePartyDto } from './dto/create-party.dto';
@@ -36,8 +36,8 @@ export class PartiesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreatePartyDto){
-        return await this.partiesService.create(dto);
+    async create(@Body()  dto: CreatePartyDto, @Req() req){
+        return await this.partiesService.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных партии по id'})
@@ -45,8 +45,8 @@ export class PartiesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: UpdatePartyDto, @Param('id') id: number){
-        return await this.partiesService.update(id, dto);
+    async update(@Body()  dto: UpdatePartyDto, @Param('id') id: number, @Req() req){
+        return await this.partiesService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление партии по id'})
@@ -54,7 +54,7 @@ export class PartiesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return await this.partiesService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return await this.partiesService.delete(id, req.user);
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Size } from './sizes.model';
 import { CreateSizeDto } from './dto/create-size.dto';
@@ -25,26 +25,26 @@ export class SizesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Get('/:id')
-    async get(@Param('id') id:number){
+    async get(@Param('id') id:number, ){
         return await this.sizesService.get(id);
     }
 
     @ApiOperation({summary: 'Создание размера'})
-    @ApiResponse({status: 200, type: Size})
+    @ApiResponse({status: 201, type: Size})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreateSizeDto){
-        return await this.sizesService.create(dto);
+    async create(@Body()  dto: CreateSizeDto, @Req() req){
+        return await this.sizesService.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных размера по id'})
-    @ApiResponse({status: 200, type: Size})
+    @ApiResponse({status: 201, type: Size})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreateSizeDto, @Param('id') id: number){
-        return await this.sizesService.update(id, dto);
+    async update(@Body()  dto: CreateSizeDto, @Param('id') id: number, @Req() req){
+        return await this.sizesService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление размера по id'})
@@ -52,7 +52,7 @@ export class SizesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return await this.sizesService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return await this.sizesService.delete(id,req.user);
     }
 }

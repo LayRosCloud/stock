@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Permission } from './permissions.model';
 import { CreatePermissionDto } from './dto/create-permission.dto';
@@ -34,8 +34,8 @@ export class PermissionsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreatePermissionDto){
-        return await this.permissionsService.create(dto);
+    async create(@Body()  dto: CreatePermissionDto, @Req() req){
+        return await this.permissionsService.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных должности по id'})
@@ -43,8 +43,8 @@ export class PermissionsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreatePermissionDto, @Param('id') id: number){
-        return await this.permissionsService.update(id, dto);
+    async update(@Body()  dto: CreatePermissionDto, @Param('id') id: number, @Req() req){
+        return await this.permissionsService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление должности по id'})
@@ -52,7 +52,7 @@ export class PermissionsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return await this.permissionsService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return await this.permissionsService.delete(id, req.user);
     }
 }

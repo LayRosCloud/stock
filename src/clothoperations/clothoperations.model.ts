@@ -12,8 +12,8 @@ export interface IClothOperationCreationAttrs{
     priceId: number;
     dateStart: Date;
 }
-
-@Table({tableName: 'clothoperations', timestamps: false})
+export const tableName: string = 'clothoperations'
+@Table({tableName: tableName, timestamps: false})
 export class ClothOperation extends Model<ClothOperation, IClothOperationCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

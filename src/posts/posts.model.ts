@@ -7,8 +7,8 @@ export interface IPostCreationAttrs{
     name: string;
     description: string;
 }
-
-@Table({tableName: 'posts', timestamps: false})
+export const tableName: string = 'posts';
+@Table({tableName: tableName, timestamps: false})
 export default class Post extends Model<Post, IPostCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный идентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true})

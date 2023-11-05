@@ -6,13 +6,15 @@ import { Operation } from './operations.model';
 import { ClothOperation } from 'src/clothoperations/clothoperations.model';
 import { Price } from 'src/prices/prices.model';
 import { AuthModule } from 'src/auth/auth.module';
+import {HistoriesModule} from "../histories/histories.module";
 
 @Module({
   controllers: [OperationsController],
   providers: [OperationsService],
   imports: [
     SequelizeModule.forFeature([Operation, ClothOperation, Price]),
-    AuthModule
+    AuthModule,
+    HistoriesModule
   ]
 })
 export class OperationsModule {}

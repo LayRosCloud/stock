@@ -29,6 +29,14 @@ import { ClothOperation } from "./clothoperations/clothoperations.model";
 import { PackagesModule } from './packages/packages.module';
 import {Package} from "./packages/packages.model";
 import { AuthModule } from './auth/auth.module';
+import { MaterialsModule } from './materials/materials.module';
+import { ColorsModule } from './colors/colors.module';
+import { HistoriesModule } from './histories/histories.module';
+import {Color} from "./colors/colors.model";
+import {Material} from "./materials/materials.model";
+import { ActionsModule } from './actions/actions.module';
+import {History} from "./histories/histories.model";
+import {Action} from "./actions/action.model";
 
 @Module({
     controllers: [],
@@ -47,7 +55,8 @@ import { AuthModule } from './auth/auth.module';
             models: [Person, Age, Size, 
                     Price, ModelEntity, Post, 
                     Permission, Party, Operation, 
-                    ModelSize, ClothOperation, Package],
+                    ModelSize, ClothOperation, Package,
+                Color, Material, History, Action],
             autoLoadModels: true
         }),
         HateoasModule,
@@ -63,7 +72,11 @@ import { AuthModule } from './auth/auth.module';
         AgesModule,
         ClothoperationsModule,
         PackagesModule,
-        AuthModule
+        AuthModule,
+        MaterialsModule,
+        ColorsModule,
+        HistoriesModule,
+        ActionsModule
     ]
 })
 export class AppModule{}

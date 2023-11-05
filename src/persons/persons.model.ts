@@ -5,6 +5,7 @@ import { Party } from "src/parties/parties.model";
 import { Permission } from "src/permissions/permissions.model";
 import Post from "src/posts/posts.model";
 import {Package} from "../packages/packages.model";
+import {History} from "../histories/histories.model";
 
 export interface IPersonCreationAttrs{
     email: string;
@@ -20,7 +21,9 @@ export interface IPersonCreationAttrs{
     uid: string;
 }
 
-@Table({tableName: 'persons', updatedAt: false, createdAt: 'dateRegistration'})
+export const tableName: string = 'persons'
+
+@Table({tableName: tableName, updatedAt: false, createdAt: 'dateRegistration'})
 export class Person extends Model<Person, IPersonCreationAttrs>{
 
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
@@ -67,4 +70,7 @@ export class Person extends Model<Person, IPersonCreationAttrs>{
 
     @HasMany(() => ClothOperation)
     clothOperations: ClothOperation[];
+
+    @HasMany(()=>History)
+    histories: History[]
 }

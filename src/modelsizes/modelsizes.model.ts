@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Model, DataType, Column, Table, ForeignKey } from "sequelize-typescript";
+import {Model, DataType, Column, Table, ForeignKey} from "sequelize-typescript";
 import { ModelEntity } from "src/models/models.model";
 import { Size } from "src/sizes/sizes.model";
 
@@ -7,8 +7,8 @@ export interface IModelSizeCreationAttrs{
     modelId: number;
     sizeId: number;
 }
-
-@Table({tableName: 'modelsizes', timestamps: false})
+export const tableName: string = 'modelsizes'
+@Table({tableName: tableName, timestamps: false})
 export class ModelSize extends Model<ModelSize, IModelSizeCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

@@ -7,6 +7,7 @@ import Post from 'src/posts/posts.model';
 import { Permission } from 'src/permissions/permissions.model';
 import {PostsModule} from "../posts/posts.module";
 import { AuthModule } from 'src/auth/auth.module';
+import {HistoriesModule} from "../histories/histories.module";
 
 @Module({
     providers: [PersonsService],
@@ -14,6 +15,7 @@ import { AuthModule } from 'src/auth/auth.module';
     imports: [
         SequelizeModule.forFeature([Person, Post, Permission]),
         PostsModule,
+        HistoriesModule,
         forwardRef(()=>AuthModule)
     ],
     exports:[

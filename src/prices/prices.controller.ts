@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Price } from './prices.model';
 import { CreatePriceDto } from './dto/create-price.dto';
@@ -36,8 +36,8 @@ export class PricesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body() dto: CreatePriceDto){
-        return this.pricesService.create(dto);
+    async create(@Body() dto: CreatePriceDto, @Req() req){
+        return this.pricesService.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных цен по id'})
@@ -45,8 +45,8 @@ export class PricesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreatePriceDto, @Param('id') id: number){
-        return this.pricesService.update(id, dto);
+    async update(@Body()  dto: CreatePriceDto, @Param('id') id: number, @Req() req){
+        return this.pricesService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление цен по id'})
@@ -54,7 +54,7 @@ export class PricesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return this.pricesService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return this.pricesService.delete(id, req.user);
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import PostEntity from './posts.model';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -35,8 +35,8 @@ export class PostsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Post()
-    async create(@Body()  dto: CreatePostDto){
-        return await this.postsService.create(dto);
+    async create(@Body()  dto: CreatePostDto, @Req() req){
+        return await this.postsService.create(dto, req.user);
     }
     
     @ApiOperation({summary: 'Обновление данных должности по id'})
@@ -44,8 +44,8 @@ export class PostsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')
-    async update(@Body()  dto: CreatePostDto, @Param('id') id: number){
-        return await this.postsService.update(id, dto);
+    async update(@Body()  dto: CreatePostDto, @Param('id') id: number, @Req() req){
+        return await this.postsService.update(id, dto, req.user);
     }
 
     @ApiOperation({summary: 'Удаление должности по id'})
@@ -53,7 +53,7 @@ export class PostsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
-        return await this.postsService.delete(id);
+    async delete(@Param('id') id: number, @Req() req){
+        return await this.postsService.delete(id, req.user);
     }
 }

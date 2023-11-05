@@ -7,13 +7,18 @@ export interface IOperationCreationAttrs{
     name: string;
     description: string;
     priceId: number;
+    uid: string
 }
-
-@Table({tableName: 'operations', timestamps: false})
+export const tableName: string = 'operations'
+@Table({tableName: tableName, timestamps: false})
 export class Operation extends Model<Operation, IOperationCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})
     id: number;
+
+    @ApiProperty({example: 'Over', description: 'Артикул операции'})
+    @Column({type: DataType.STRING(5), allowNull: false})
+    uid: string;
 
     @ApiProperty({example: 'Overlock', description: 'Название операции'})
     @Column({type: DataType.STRING(30), allowNull: false})
