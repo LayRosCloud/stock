@@ -1,17 +1,18 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectConnection, InjectModel} from "@nestjs/sequelize";
-import {Color, tableName} from "./colors.model";
-import {CreateColorDto} from "./dto/create-color.dto";
 import {HistoriesService} from "../histories/histories.service";
 import {Sequelize, Transaction} from "sequelize";
 import {Person} from "../persons/persons.model";
 import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
+import {ClothOperationPerson, tableName} from "./clothoperatiospersons.model";
+import {CreateClothoperationpersonDto} from "./dto/create-clothoperationperson.dto";
+import {UpdateClothoperationpersonDto} from "./dto/update-clothoperationperson.dto";
 
 @Injectable()
-export class ColorsService {
-    constructor(@InjectModel(Color)
-                private readonly colorRepository: typeof Color,
+export class ClothoperatiospersonsService {
+    constructor(@InjectModel(ClothOperationPerson)
+                private readonly clothOperationPersonRepository: typeof ClothOperationPerson,
                 private readonly historyService: HistoriesService,
                 @InjectConnection()
                 private readonly sequelizeInstance: Sequelize
@@ -21,11 +22,11 @@ export class ColorsService {
         const transaction: Transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const colors = await this.colorRepository.findAll({transaction});
+            const clothOperationPeople = await this.clothOperationPersonRepository.findAll({transaction});
 
             await transaction.commit();
 
-            return colors;
+            return clothOperationPeople;
         }catch (e){
             await transaction.rollback();
             throw e;
@@ -37,34 +38,34 @@ export class ColorsService {
         const transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const color =  await this.colorRepository.findByPk(id, {transaction});
-            if(!color){
+            const clothOperationPerson =  await this.clothOperationPersonRepository.findByPk(id, {transaction});
+            if(!clothOperationPerson){
                 throw new NotFoundException(`Error! Object with id ${id} not found`);
             }
             await transaction.commit();
 
-            return color;
+            return clothOperationPerson;
         }catch (e){
             await transaction.rollback();
             throw e;
         }
     }
 
-    async create(dto: CreateColorDto, person: Person){
+    async create(dto: CreateClothoperationpersonDto, person: Person){
 
         const transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const color = await this.colorRepository.create(dto, {transaction});
+            const clothOperationPerson = await this.clothOperationPersonRepository.create(dto, {transaction});
             const historyDto: CreateHistoryDto = new CreateHistoryDto(
                 Actions.POST,
                 person.id,
                 tableName,
-                `Создана запись с полями ${dto.name}`)
+                `Создана запись с полями ${dto.personId}`)
             await this.historyService.create(historyDto, transaction)
             await transaction.commit();
 
-            return color;
+            return clothOperationPerson;
 
         }catch (e){
             await transaction.rollback();
@@ -73,16 +74,16 @@ export class ColorsService {
 
     }
 
-    async update(id: number, dto: CreateColorDto, person: Person){
+    async update(id: number, dto: UpdateClothoperationpersonDto, person: Person){
         const transaction = await this.sequelizeInstance.transaction();
 
         try{
-            await this.colorRepository.update(dto, {where: {id},transaction});
+            await this.clothOperationPersonRepository.update(dto, {where: {id}})
             const historyDto: CreateHistoryDto = new CreateHistoryDto(
                 Actions.UPDATE,
                 person.id,
                 tableName,
-                `Обновлена запись с полями ${dto.name}`)
+                `Обновлена запись с полями ${dto.personId}`)
             await this.historyService.create(historyDto, transaction)
             await transaction.commit();
 
@@ -99,7 +100,7 @@ export class ColorsService {
         const transaction = await this.sequelizeInstance.transaction();
 
         try{
-            await this.colorRepository.destroy({where: {id: id}, transaction});
+            await this.clothOperationPersonRepository.destroy({where: {id: id}, transaction});
             const historyDto: CreateHistoryDto = new CreateHistoryDto(
                 Actions.DELETE,
                 person.id,

@@ -5,7 +5,6 @@ import * as process from "process";
 import { HateoasModule } from './hateoas/hateoas.module';
 import { PersonsModule } from "./persons/persons.module";
 import { Person } from "./persons/persons.model";
-import { PostsController } from './posts/posts.controller';
 import { PostsModule } from './posts/posts.module';
 import { ClothoperationsModule } from './clothoperations/clothoperations.module';
 import { AgesModule } from './ages/ages.module';
@@ -37,6 +36,8 @@ import {Material} from "./materials/materials.model";
 import { ActionsModule } from './actions/actions.module';
 import {History} from "./histories/histories.model";
 import {Action} from "./actions/action.model";
+import { ClothoperatiospersonsModule } from './clothoperatiospersons/clothoperatiospersons.module';
+import {ClothOperationPerson} from "./clothoperatiospersons/clothoperatiospersons.model";
 
 @Module({
     controllers: [],
@@ -56,7 +57,7 @@ import {Action} from "./actions/action.model";
                     Price, ModelEntity, Post, 
                     Permission, Party, Operation, 
                     ModelSize, ClothOperation, Package,
-                Color, Material, History, Action],
+                Color, Material, History, Action, ClothOperationPerson],
             autoLoadModels: true
         }),
         HateoasModule,
@@ -76,7 +77,8 @@ import {Action} from "./actions/action.model";
         MaterialsModule,
         ColorsModule,
         HistoriesModule,
-        ActionsModule
+        ActionsModule,
+        ClothoperatiospersonsModule
     ]
 })
 export class AppModule{}

@@ -10,7 +10,6 @@ export interface IClothOperationCreationAttrs{
     packageId: number;
     personId: number;
     priceId: number;
-    dateStart: Date;
 }
 export const tableName: string = 'clothoperations'
 @Table({tableName: tableName, timestamps: false})
@@ -29,21 +28,13 @@ export class ClothOperation extends Model<ClothOperation, IClothOperationCreatio
     @Column({type: DataType.INTEGER, allowNull: false})
     packageId: number;
 
-    @ApiProperty({example: 1, description: 'Id человека'})
-    @ForeignKey(()=>Person)
-    @Column({type: DataType.INTEGER, allowNull: false})
-    personId: number;
-
     @ApiProperty({example: 1, description: 'Id зафиксированной цены в данный момент у операции'})
     @ForeignKey(() => Price)
     @Column({type: DataType.INTEGER, allowNull: false})
     priceId: number;
 
-    @ApiProperty({example: '2010-10-10', description: 'Дата начала операции'})
-    @Column({type: DataType.DATE, allowNull: false})
-    dateStart: Date;
-
-    @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
+    @ApiProperty({example: false, description: 'Закончена ли операция'})
+    @Column({type: DataType.INTEGER, allowNull: false})
     isEnded: boolean;
 
     @BelongsTo(()=> Operation)
@@ -51,9 +42,6 @@ export class ClothOperation extends Model<ClothOperation, IClothOperationCreatio
 
     @BelongsTo(()=> Package)
     package: Package;
-
-    @BelongsTo(()=> Person)
-    person: Person;
 
     @BelongsTo(()=> Price)
     price: Price;
