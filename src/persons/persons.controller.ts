@@ -57,8 +57,16 @@ export class PersonsController {
     @Put('/:id')
     async update(@Body() dto: CreatePersonDto, @Param('id') id: number, @Req() req){
         const user = req.user;
-        if(user.id !== id && !user.posts.includes('ADMIN')){
-            throw new ForbiddenException('Ошибка! Нет прав изменить другого человека!')
+        let isHas;
+        user.posts.forEach(post => {
+            if(post.name === 'ADMIN'){
+                isHas = true;
+            }
+        })
+        if(!isHas){
+            if(user.id !== id){
+                throw new ForbiddenException('Ошибка! Недостаточно прав изменить другого пользователя')
+            }
         }
         return await this.personsService.update(id, dto);
     }
@@ -68,7 +76,7 @@ export class PersonsController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete('/:id')
-    async delete(@Param('id') id: number){
+    async delete(@Param('id') id: number, @Req() req){
         return await this.personsService.delete(id);
     }
 }

@@ -5,7 +5,7 @@ import {IClothOperationPersonsCreationAttrs} from "../clothoperatiospersons.mode
 
 export class UpdateClothoperationpersonDto implements IClothOperationPersonsCreationAttrs{
     @ApiProperty({example: '0', description: 'Закончена ли операция'})
-    @IsBoolean({message: 'Должно быть булевым'})
+    @IsNumber({},{message: 'Должно быть числом'})
     clothOperationId: number;
 
     @ApiProperty({example: '2010-10-10', description: 'Дата начала операции'})

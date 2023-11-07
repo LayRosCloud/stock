@@ -18,7 +18,7 @@ export interface IPackageCreationAttrs{
 
 export const tableName: string = 'packages'
 
-@Table({tableName: tableName, updatedAt: false})
+@Table({tableName: tableName})
 export class Package extends Model<Package, IPackageCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})

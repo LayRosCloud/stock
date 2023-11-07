@@ -9,7 +9,9 @@ export interface IOperationCreationAttrs{
     priceId: number;
     uid: string
 }
+
 export const tableName: string = 'operations'
+
 @Table({tableName: tableName, timestamps: false})
 export class Operation extends Model<Operation, IOperationCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})

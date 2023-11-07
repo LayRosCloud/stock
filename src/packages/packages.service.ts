@@ -53,9 +53,9 @@ export class PackagesService {
         try{
             let packages;
             if(partyId){
-                packages = await this.packageRepository.findAll({where: {partyId}, transaction})
+                packages = await this.packageRepository.findAll({where: {partyId}, transaction,include})
             }else{
-                packages = await this.packageRepository.findAll({transaction})
+                packages = await this.packageRepository.findAll({transaction,include})
             }
             await transaction.commit();
 

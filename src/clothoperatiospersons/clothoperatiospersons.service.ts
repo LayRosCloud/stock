@@ -18,15 +18,21 @@ export class ClothoperatiospersonsService {
                 private readonly sequelizeInstance: Sequelize
     ) { }
 
-    async getAll(){
+    async getAll(clothOperationId){
         const transaction: Transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const clothOperationPeople = await this.clothOperationPersonRepository.findAll({transaction});
+            let clothOperationPeoples;
+            if(clothOperationId){
+                clothOperationPeoples =  await this.clothOperationPersonRepository.findAll({where: {clothOperationId},transaction})
+            }
+            else{
+                clothOperationPeoples =  await this.clothOperationPersonRepository.findAll({transaction})
+            }
 
             await transaction.commit();
 
-            return clothOperationPeople;
+            return clothOperationPeoples;
         }catch (e){
             await transaction.rollback();
             throw e;

@@ -1,14 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Model, DataType, Column, Table, ForeignKey, BelongsTo } from "sequelize-typescript";
+import {Model, DataType, Column, Table, ForeignKey, BelongsTo, HasMany} from "sequelize-typescript";
 import { Operation } from "src/operations/operations.model";
-import { Person } from "src/persons/persons.model";
 import { Price } from "src/prices/prices.model";
 import {Package} from "../packages/packages.model";
+import {ClothOperationPerson} from "../clothoperatiospersons/clothoperatiospersons.model";
 
 export interface IClothOperationCreationAttrs{
     operationId: number;
     packageId: number;
-    personId: number;
     priceId: number;
 }
 export const tableName: string = 'clothoperations'
@@ -34,7 +33,7 @@ export class ClothOperation extends Model<ClothOperation, IClothOperationCreatio
     priceId: number;
 
     @ApiProperty({example: false, description: 'Закончена ли операция'})
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
     isEnded: boolean;
 
     @BelongsTo(()=> Operation)
@@ -45,4 +44,7 @@ export class ClothOperation extends Model<ClothOperation, IClothOperationCreatio
 
     @BelongsTo(()=> Price)
     price: Price;
+
+    @HasMany(()=>ClothOperationPerson)
+    clothOperationPersons: ClothOperationPerson[]
 }

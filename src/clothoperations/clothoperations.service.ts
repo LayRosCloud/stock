@@ -10,8 +10,9 @@ import {HistoriesService} from "../histories/histories.service";
 import {Sequelize, Transaction} from "sequelize";
 import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
+import {ClothOperationPerson} from "../clothoperatiospersons/clothoperatiospersons.model";
 
-const include = [Price, Operation, Package, {model: Person, attributes: { exclude: ['password'] } }]
+const include = [Price, Operation, Package, {model: ClothOperationPerson, include: [Person]} ]
 @Injectable()
 export class ClothoperationsService {
     constructor(@InjectModel(ClothOperation)
@@ -26,9 +27,9 @@ export class ClothoperationsService {
         try{
             let clothOperations;
             if(packageId){
-                clothOperations = await this.clothOperationRepository.findAll({where: {packageId},transaction});
+                clothOperations = await this.clothOperationRepository.findAll({where: {packageId},transaction, include});
             }else{
-                clothOperations = await this.clothOperationRepository.findAll({transaction});
+                clothOperations = await this.clothOperationRepository.findAll({transaction, include});
             }
 
             await transaction.commit();
@@ -69,7 +70,7 @@ export class ClothoperationsService {
                 Actions.POST,
                 person.id,
                 tableName,
-                `Создана запись с полями ${dto.personId}`)
+                `Создана запись с полями ${dto.packageId}`)
             await this.historyService.create(historyDto, transaction)
             await transaction.commit();
 

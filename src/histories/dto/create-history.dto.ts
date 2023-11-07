@@ -22,7 +22,7 @@ export class CreateHistoryDto implements IHistoryCreationAttrs{
 
     @ApiProperty({example: 'persons', description: 'Тип действия'})
     @IsString({message: 'Должно быть строкой'})
-    @Length(1, 20,{message: 'Длина от 1 до 20 символов'})
+    @Length(1, 30,{message: 'Длина от 1 до 20 символов'})
     tableName: string;
 
     @ApiProperty({example: 'Добавил нового пользователя', description: 'Какое действие сделал'})

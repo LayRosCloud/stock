@@ -16,7 +16,6 @@ export class UpdatePartyDto{
     dateStart: Date;
 
     @ApiProperty({example: '2010-01-13', description: 'Дата конца партии'})
-    @IsDateString({},{message: 'Должно быть датой'})
     dateEnd: Date;
 
     @ApiProperty({example: 1, description: 'Номер крои'})

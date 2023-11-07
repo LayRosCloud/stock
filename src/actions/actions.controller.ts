@@ -1,13 +1,13 @@
 import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@nestjs/common';
 import {CreateActionDto} from "./dto/create-action.dto";
 import {ActionsService} from "./actions.service";
-import {ApiOperation, ApiResponse} from "@nestjs/swagger";
+import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Age} from "../ages/ages.model";
 import {Roles} from "../auth/roles.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {CreateAgeDto} from "../ages/dto/create-age.dto";
 import {Action} from "./action.model";
-
+@ApiTags('Действия')
 @Controller('/v1/actions')
 export class ActionsController {
     constructor(private readonly actionsService: ActionsService) {}

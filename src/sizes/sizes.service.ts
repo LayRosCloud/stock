@@ -30,7 +30,6 @@ export class SizesService {
       await transaction.rollback();
       throw e;
     }
-
   }
 
   async get(id: number) {
@@ -105,6 +104,5 @@ export class SizesService {
       await transaction.rollback();
       throw e;
     }
-
   }
 }

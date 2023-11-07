@@ -27,7 +27,7 @@ export class History extends Model<History, IHistoryCreationAttrs>{
     actionId: number;
 
     @ApiProperty({example: 'persons', description: 'Тип действия'})
-    @Column({type: DataType.STRING(20), allowNull: false})
+    @Column({type: DataType.STRING(30), allowNull: false})
     tableName: string;
 
     @ApiProperty({example: 'Добавил нового пользователя', description: 'Какое действие сделал'})

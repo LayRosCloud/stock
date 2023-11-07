@@ -52,12 +52,10 @@ export class PostsService {
     }
     async getByValue(name: string, transaction: Transaction){
 
-        const post =  await this.postsRepository.findOne({where: {name}, transaction});
-        if(!post){
-            throw new NotFoundException(`Error! Object with name ${name} not found`);
-        }
+        const post =  await this.postsRepository.findOne({where: {name: name}, transaction});
         return post;
     }
+
     async create(dto: CreatePostDto, person: Person){
 
         const transaction = await this.sequelizeInstance.transaction();
