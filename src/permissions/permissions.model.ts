@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Model, DataType, Column, Table, ForeignKey } from "sequelize-typescript";
+import {Model, DataType, Column, Table, ForeignKey, HasMany, BelongsTo} from "sequelize-typescript";
 import { Person } from "src/persons/persons.model";
 import Post from "src/posts/posts.model";
 
@@ -23,4 +23,11 @@ export class Permission extends Model<Permission, IPermissionCreationAttrs>{
     @ForeignKey(()=>Post)
     @Column({type: DataType.INTEGER, allowNull: false})
     postId: number;
+
+    @BelongsTo(()=> Person, {onDelete: 'CASCADE'})
+    persons: Person
+
+    @BelongsTo(()=> Post, {onDelete: 'CASCADE'})
+    posts: Post
+
 }

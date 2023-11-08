@@ -7,6 +7,7 @@ import Post from "src/posts/posts.model";
 import {Package} from "../packages/packages.model";
 import {History} from "../histories/histories.model";
 import {ClothOperationPerson} from "../clothoperatiospersons/clothoperatiospersons.model";
+import {Sequelize} from "sequelize";
 
 export interface IPersonCreationAttrs{
     email: string;
@@ -59,8 +60,7 @@ export class Person extends Model<Person, IPersonCreationAttrs>{
     @Column({type: DataType.STRING(20), allowNull: false, unique: true})
     uid: string;
 
-    
-    @BelongsToMany(() => Post, () => Permission)
+    @BelongsToMany(() => Post, ()=>Permission)
     posts: Post[];
 
     @HasMany(() => Party)

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {Model, DataType, Column, Table, ForeignKey} from "sequelize-typescript";
+import {Model, DataType, Column, Table, ForeignKey, BelongsTo} from "sequelize-typescript";
 import { ModelEntity } from "src/models/models.model";
 import { Size } from "src/sizes/sizes.model";
 
@@ -23,4 +23,10 @@ export class ModelSize extends Model<ModelSize, IModelSizeCreationAttrs>{
     @ForeignKey(() => Size)
     @Column({type: DataType.INTEGER, allowNull: false})
     sizeId: number;
+
+    @BelongsTo(()=> ModelEntity, {onDelete: 'CASCADE'})
+    model: ModelEntity
+
+    @BelongsTo(()=> Size)
+    size: Size
 }

@@ -25,6 +25,9 @@ export class UpdatePackageDto implements IPackageCreationAttrs{
     @IsBoolean({message: 'Должно быть булевым'})
     isEnded: boolean;
 
+    @ApiProperty({example: false, description: 'Обновлена ли пачка'})
+    @IsBoolean({message: 'Должно быть булевым'})
+    isUpdated: boolean;
 
     @ApiProperty({example: false, description: 'Повторная ли это пачка'})
     @IsBoolean({message: 'Должно быть булевым'})

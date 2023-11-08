@@ -18,7 +18,7 @@ export interface IPackageCreationAttrs{
 
 export const tableName: string = 'packages'
 
-@Table({tableName: tableName})
+@Table({tableName: tableName, updatedAt: false})
 export class Package extends Model<Package, IPackageCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})
@@ -57,9 +57,13 @@ export class Package extends Model<Package, IPackageCreationAttrs>{
     @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
     isEnded: boolean;
 
-    @ApiProperty({example: false, description: 'Закончены ли операции над пачкой'})
+    @ApiProperty({example: false, description: 'Повторена ли пачка'})
     @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
     isRepeat: boolean;
+
+    @ApiProperty({example: false, description: 'Изменена ли пачка'})
+    @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
+    isUpdated: boolean;
 
     @ApiProperty({example: 'DF', description: 'Артикул пачки'})
     @Column({type: DataType.STRING(10), allowNull: false})

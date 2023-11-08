@@ -54,6 +54,7 @@ export class ClothoperatiospersonsController {
     @ApiOperation({summary: 'Удаление операции на партии по id'})
     @ApiResponse({status: 200})
     @Roles('ADMIN')
+    @UseGuards(RolesGuard)
     @Delete('/:id')
     async delete(@Param('id') id: number, @Req() req){
         return await this.clothOperationPersonRepository.delete(id, req.user);
