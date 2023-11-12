@@ -7,13 +7,13 @@ import {CreatePackageDto} from "./dto/create-package.dto";
 import {Sequelize, Transaction} from "sequelize";
 import Post from "../posts/posts.model";
 import {Material} from "../materials/materials.model";
-import {Color} from "../colors/colors.model";
 import {HistoriesService} from "../histories/histories.service";
 import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
 import {UpdatePackageDto} from "./dto/update-package.dto";
+import {Party} from "../parties/parties.model";
 
-const include =  [Size, Material, Color, {model: Person, attributes: { exclude: ['password'] }, include: [Post]}];
+const include =  [Size, Material, Party, {model: Person, attributes: { exclude: ['password'] }, include: [Post]}];
 
 @Injectable()
 export class PackagesService {
@@ -95,7 +95,7 @@ export class PackagesService {
                 Actions.POST,
                 person.id,
                 tableName,
-                `Создана запись с полями ${dto.uid}`)
+                `Создана запись с полями ${packageObj.id}`)
             await this.historyService.create(historyDto, transaction)
             await transaction.commit();
 
@@ -117,7 +117,7 @@ export class PackagesService {
                 Actions.UPDATE,
                 person.id,
                 tableName,
-                `Обновлена запись с полями ${dto.uid}`)
+                `Обновлена запись с полями ${id}`)
             await this.historyService.create(historyDto, transaction)
             await transaction.commit();
 

@@ -8,7 +8,7 @@ export interface IPartyCreationAttrs{
     modelId: number;
     personId: number;
     dateStart: Date;
-    cutNumber: number
+    cutNumber: string
 }
 
 export const tableName: string = 'parties'
@@ -36,9 +36,9 @@ export class Party extends Model<Party, IPartyCreationAttrs>{
     @Column({type: DataType.DATEONLY, allowNull: true})
     dateEnd: Date;
 
-    @ApiProperty({example: 1, description: 'Номер крои'})
-    @Column({type: DataType.INTEGER, allowNull: false})
-    cutNumber: number
+    @ApiProperty({example: "1.100", description: 'Номер крои'})
+    @Column({type: DataType.STRING(10), allowNull: false})
+    cutNumber: string
 
     @BelongsTo(()=> Person)
     person: Person;

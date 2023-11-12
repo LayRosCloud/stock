@@ -20,7 +20,7 @@ export class HateoasService {
         this.#add('sizes', links);
         this.#add('parties', links);
         this.#add('models', links);
-        this.#add('modelsizes', links);
+        this.#add('modeloperations', links);
         this.#add('operations', links);
         this.#add('auth', links);
         this.#add('clothoperations', links);

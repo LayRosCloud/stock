@@ -9,7 +9,6 @@ import { PostsModule } from './posts/posts.module';
 import { ClothoperationsModule } from './clothoperations/clothoperations.module';
 import { AgesModule } from './ages/ages.module';
 import { ModelsModule } from './models/models.module';
-import { ModelsizesModule } from './modelsizes/modelsizes.module';
 import { OperationsModule } from './operations/operations.module';
 import { PartiesModule } from './parties/parties.module';
 import { PermissionsModule } from './permissions/permissions.module';
@@ -23,21 +22,20 @@ import Post from "./posts/posts.model";
 import { Permission } from "./permissions/permissions.model";
 import { Party } from "./parties/parties.model";
 import { Operation } from "./operations/operations.model";
-import { ModelSize } from "./modelsizes/modelsizes.model";
 import { ClothOperation } from "./clothoperations/clothoperations.model";
 import { PackagesModule } from './packages/packages.module';
 import {Package} from "./packages/packages.model";
 import { AuthModule } from './auth/auth.module';
 import { MaterialsModule } from './materials/materials.module';
-import { ColorsModule } from './colors/colors.module';
 import { HistoriesModule } from './histories/histories.module';
-import {Color} from "./colors/colors.model";
 import {Material} from "./materials/materials.model";
 import { ActionsModule } from './actions/actions.module';
 import {History} from "./histories/histories.model";
 import {Action} from "./actions/action.model";
 import { ClothoperatiospersonsModule } from './clothoperatiospersons/clothoperatiospersons.module';
 import {ClothOperationPerson} from "./clothoperatiospersons/clothoperatiospersons.model";
+import { ModeloperationsModule } from './modeloperations/modeloperations.module';
+import {ModelOperation} from "./modeloperations/entities/modeloperation.entity";
 
 @Module({
     controllers: [],
@@ -56,8 +54,8 @@ import {ClothOperationPerson} from "./clothoperatiospersons/clothoperatiosperson
             models: [Person, Age, Size, 
                     Price, ModelEntity, Post, 
                     Permission, Party, Operation, 
-                    ModelSize, ClothOperation, Package,
-                Color, Material, History, Action, ClothOperationPerson],
+                    ClothOperation, Package,
+                 Material, History, Action, ClothOperationPerson, ModelOperation],
             autoLoadModels: true
         }),
         HateoasModule,
@@ -68,17 +66,16 @@ import {ClothOperationPerson} from "./clothoperatiospersons/clothoperatiosperson
         PermissionsModule,
         PartiesModule,
         OperationsModule,
-        ModelsizesModule,
         ModelsModule,
         AgesModule,
         ClothoperationsModule,
         PackagesModule,
         AuthModule,
         MaterialsModule,
-        ColorsModule,
         HistoriesModule,
         ActionsModule,
-        ClothoperatiospersonsModule
+        ClothoperatiospersonsModule,
+        ModeloperationsModule
     ]
 })
 export class AppModule{}

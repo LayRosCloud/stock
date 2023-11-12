@@ -19,7 +19,4 @@ export class Price extends Model<Price, IPriceCreationAttrs>{
 
     @HasMany(()=>ClothOperation)
     clothOperations: ClothOperation[];
-
-    @HasMany(()=>Operation)
-    operations: Operation[];
 }

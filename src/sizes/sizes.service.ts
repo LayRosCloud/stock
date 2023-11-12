@@ -45,7 +45,6 @@ export class SizesService {
     }
 
   }
-
   async create(dto: CreateSizeDto, person: Person) {
     const transaction = await this.sequelizeInstance.transaction();
 
@@ -56,7 +55,7 @@ export class SizesService {
           Actions.POST,
           person.id,
           tableName,
-          `Создана запись с полями ${dto.name}, ${dto.number}`)
+          `Создана запись с полями ${dto.number}`)
       await this.historyService.create(historyDto, transaction)
       await transaction.commit();
       return size;
@@ -75,7 +74,7 @@ export class SizesService {
           Actions.UPDATE,
           person.id,
           tableName,
-          `Обновлена запись с полями ${id} ${dto.name}, ${dto.number}`)
+          `Обновлена запись с полями ${id} ${dto.number}`)
       await this.historyService.create(historyDto, transaction)
       await transaction.commit();
       return this.get(id);

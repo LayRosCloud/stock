@@ -1,18 +1,15 @@
 import {BelongsTo, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
-import {ApiProperty, ApiTags} from "@nestjs/swagger";
+import {ApiProperty} from "@nestjs/swagger";
 import {Size} from "../sizes/sizes.model";
 import {Party} from "../parties/parties.model";
 import {Person} from "../persons/persons.model";
 import {Material} from "../materials/materials.model";
-import {Color} from "../colors/colors.model";
 
 export interface IPackageCreationAttrs{
     personId:number;
     partyId: number;
     sizeId: number;
     count: number;
-    uid: string
-    colorId: number;
     materialId: number;
 }
 
@@ -48,11 +45,6 @@ export class Package extends Model<Package, IPackageCreationAttrs>{
     @Column({type: DataType.INTEGER, allowNull: false})
     materialId: number
 
-    @ApiProperty({example: 1, description: 'Цвет пачки'})
-    @ForeignKey(()=> Color)
-    @Column({type: DataType.INTEGER, allowNull: false})
-    colorId: number
-
     @ApiProperty({example: false, description: 'Закончены ли операции над пачкой'})
     @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
     isEnded: boolean;
@@ -65,10 +57,6 @@ export class Package extends Model<Package, IPackageCreationAttrs>{
     @Column({type: DataType.BOOLEAN, allowNull: false, defaultValue: '0'})
     isUpdated: boolean;
 
-    @ApiProperty({example: 'DF', description: 'Артикул пачки'})
-    @Column({type: DataType.STRING(10), allowNull: false})
-    uid: string;
-
     @BelongsTo(()=> Size)
     size: Size;
 
@@ -77,9 +65,6 @@ export class Package extends Model<Package, IPackageCreationAttrs>{
 
     @BelongsTo(()=> Person)
     person: Person;
-
-    @BelongsTo(()=> Color)
-    color: Color;
 
     @BelongsTo(()=> Material)
     material: Material;

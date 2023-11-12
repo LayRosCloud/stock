@@ -1,6 +1,5 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectConnection, InjectModel} from "@nestjs/sequelize";
-import {CreateModelSizeDto} from "../modelsizes/dto/create-modelsize.dto";
 import {ModelEntity, tableName} from "./models.model";
 import {HistoriesService} from "../histories/histories.service";
 import {Sequelize, Transaction} from "sequelize";

@@ -4,7 +4,6 @@ import { ModelsService } from './models.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ModelEntity } from './models.model';
 import { Size } from 'src/sizes/sizes.model';
-import { ModelSize } from 'src/modelsizes/modelsizes.model';
 import { Party } from 'src/parties/parties.model';
 import { AuthModule } from 'src/auth/auth.module';
 import {HistoriesModule} from "../histories/histories.module";
@@ -13,7 +12,7 @@ import {HistoriesModule} from "../histories/histories.module";
   controllers: [ModelsController],
   providers: [ModelsService],
   imports: [
-    SequelizeModule.forFeature([ModelEntity, Size, ModelSize, Party]),
+    SequelizeModule.forFeature([ModelEntity, Size, Party]),
     AuthModule,
     HistoriesModule
 ]

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDateString, IsNumber } from "class-validator";
+import {IsDateString, IsNumber, IsString, Length} from "class-validator";
 
 
 export class UpdatePartyDto{
@@ -19,6 +19,7 @@ export class UpdatePartyDto{
     dateEnd: Date;
 
     @ApiProperty({example: 1, description: 'Номер крои'})
-    @IsNumber({},{message: 'Должно быть числом'})
-    cutNumber: number;
+    @IsString({message: 'Должно быть строкой'})
+    @Length(1, 10, {message: "От 1 до 10 символов"})
+    cutNumber: string;
 }

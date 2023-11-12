@@ -8,14 +8,13 @@ import {Party} from "../parties/parties.model";
 import { AuthModule } from 'src/auth/auth.module';
 import {Person} from "../persons/persons.model";
 import {Material} from "../materials/materials.model";
-import {Color} from "../colors/colors.model";
 import {HistoriesModule} from "../histories/histories.module";
 
 @Module({
   providers: [PackagesService],
   controllers: [PackagesController],
   imports: [
-    SequelizeModule.forFeature([Package, Size, Party, Person, Material, Color]),
+    SequelizeModule.forFeature([Package, Size, Party, Person, Material]),
     AuthModule,
     HistoriesModule
   ]

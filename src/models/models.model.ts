@@ -1,14 +1,14 @@
-import { ApiProperty, ApiTags } from "@nestjs/swagger";
-import { Model, DataType, Column, Table, BelongsToMany, HasMany } from "sequelize-typescript";
-import { ModelSize } from "src/modelsizes/modelsizes.model";
+import { ApiProperty } from "@nestjs/swagger";
+import {Model, DataType, Column, Table, BelongsToMany, HasMany, ForeignKey} from "sequelize-typescript";
 import { Party } from "src/parties/parties.model";
-import { Size } from "src/sizes/sizes.model";
+import {ModelOperation} from "../modeloperations/entities/modeloperation.entity";
+import {Operation} from "../operations/operations.model";
+import {Price} from "../prices/prices.model";
 
 export interface IModelCreationAttrs{
     title: string;
-    description: string;
     codeVendor: string;
-    percent: number;
+    priceId: number;
 }
 
 export const tableName: string = 'models'
@@ -18,25 +18,22 @@ export class ModelEntity extends Model<ModelEntity, IModelCreationAttrs>{
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})
     id: number;
 
-    @ApiProperty({example: 'Треники', description: 'Название модели'})
-    @Column({type: DataType.STRING(30), allowNull: false})
-    title: string;
-
-    @ApiProperty({example: 'Штаны с резинкой на ступнях', description: 'Описание модели'})
+    @ApiProperty({example: 'Треники', description: 'Полное название'})
     @Column({type: DataType.STRING(255), allowNull: false})
-    description: string;
+    title: string;
 
     @ApiProperty({example: 'Ш230123', description: 'Артикул модели'})
     @Column({type: DataType.STRING(30), allowNull: false})
     codeVendor: string;
 
-    @ApiProperty({example: 100, description: 'Процент наценки'})
-    @Column({type: DataType.SMALLINT, allowNull: false})
-    percent: number;
+    @ApiProperty({example: 100, description: 'цена'})
+    @ForeignKey(()=>Price)
+    @Column({type: DataType.INTEGER, allowNull: false})
+    priceId: number;
 
     @HasMany(()=>Party)
     parties: Party[] 
 
-    @BelongsToMany(() => Size, () => ModelSize)
-    sizes: Size[]
+    @BelongsToMany(() => Operation, () => ModelOperation)
+    operations: Operation[]
 }
