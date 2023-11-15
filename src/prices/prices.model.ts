@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Model, DataType, Column, Table, HasMany } from "sequelize-typescript";
 import { ClothOperation } from "src/clothoperations/clothoperations.model";
 import { Operation } from "src/operations/operations.model";
+import {ModelEntity} from "../models/models.model";
 
 export interface IPriceCreationAttrs{
     number: number;
@@ -19,4 +20,7 @@ export class Price extends Model<Price, IPriceCreationAttrs>{
 
     @HasMany(()=>ClothOperation)
     clothOperations: ClothOperation[];
+
+    @HasMany(()=>ModelEntity)
+    models: ModelEntity[];
 }

@@ -7,12 +7,13 @@ import { ClothOperation } from 'src/clothoperations/clothoperations.model';
 import { Operation } from 'src/operations/operations.model';
 import { AuthModule } from 'src/auth/auth.module';
 import {HistoriesModule} from "../histories/histories.module";
+import {ModelEntity} from "../models/models.model";
 
 @Module({
   providers: [PricesService],
   controllers: [PricesController],
   imports: [
-    SequelizeModule.forFeature([Price, ClothOperation, Operation]),
+    SequelizeModule.forFeature([Price, ClothOperation, Operation, ModelEntity]),
     AuthModule,
     HistoriesModule
 ]

@@ -1,6 +1,6 @@
 import {ApiProperty} from "@nestjs/swagger";
 import {IPackageCreationAttrs} from "../packages.model";
-import {IsNumber, IsString, Length} from "class-validator";
+import {IsNumber} from "class-validator";
 
 export class CreatePackageDto implements IPackageCreationAttrs{
     @ApiProperty({example: 1, description: 'Кто добавил пачку'})

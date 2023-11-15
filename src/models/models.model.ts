@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {Model, DataType, Column, Table, BelongsToMany, HasMany, ForeignKey} from "sequelize-typescript";
+import {Model, DataType, Column, Table, BelongsToMany, HasMany, ForeignKey, BelongsTo} from "sequelize-typescript";
 import { Party } from "src/parties/parties.model";
 import {ModelOperation} from "../modeloperations/entities/modeloperation.entity";
 import {Operation} from "../operations/operations.model";
@@ -27,12 +27,15 @@ export class ModelEntity extends Model<ModelEntity, IModelCreationAttrs>{
     codeVendor: string;
 
     @ApiProperty({example: 100, description: 'цена'})
-    @ForeignKey(()=>Price)
+    @ForeignKey(()=> Price)
     @Column({type: DataType.INTEGER, allowNull: false})
     priceId: number;
 
     @HasMany(()=>Party)
-    parties: Party[] 
+    parties: Party[]
+
+    @BelongsTo(()=> Price)
+    price: Price;
 
     @BelongsToMany(() => Operation, () => ModelOperation)
     operations: Operation[]

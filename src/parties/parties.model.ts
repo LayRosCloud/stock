@@ -32,10 +32,6 @@ export class Party extends Model<Party, IPartyCreationAttrs>{
     @Column({type: DataType.DATEONLY, allowNull: false})
     dateStart: Date;
 
-    @ApiProperty({example: '2010-02-13', description: 'Дата окончания партии'})
-    @Column({type: DataType.DATEONLY, allowNull: true})
-    dateEnd: Date;
-
     @ApiProperty({example: "1.100", description: 'Номер крои'})
     @Column({type: DataType.STRING(10), allowNull: false})
     cutNumber: string

@@ -2,13 +2,11 @@ import {Injectable, NotFoundException} from "@nestjs/common";
 import {InjectConnection, InjectModel} from "@nestjs/sequelize";
 import { Operation, tableName } from "./operations.model";
 import { CreateOperationDto } from "./dto/create-operation.dto";
-import { Price } from "src/prices/prices.model";
 import {HistoriesService} from "../histories/histories.service";
 import {Sequelize, Transaction} from "sequelize";
 import {Person} from "../persons/persons.model";
 import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
-const include = [Price];
 @Injectable()
 export class OperationsService {
   constructor(
@@ -23,7 +21,7 @@ export class OperationsService {
     const transaction: Transaction = await this.sequelizeInstance.transaction();
 
     try{
-      const parties = await this.operationRepository.findAll({include, transaction});
+      const parties = await this.operationRepository.findAll({transaction});
 
       await transaction.commit();
 
@@ -40,7 +38,7 @@ export class OperationsService {
     const transaction = await this.sequelizeInstance.transaction();
 
     try{
-      const party =  await this.operationRepository.findByPk(id, {include, transaction});
+      const party =  await this.operationRepository.findByPk(id, {transaction});
       if(!party){
         throw new NotFoundException(`Error! Object with id ${id} not found`);
       }

@@ -17,7 +17,7 @@ export class History extends Model<History, IHistoryCreationAttrs>{
     id: number;
 
     @ApiProperty({example: 1, description: 'Человек, который сделал действие'})
-    @ForeignKey(()=>Person)
+    @ForeignKey(() => Person)
     @Column({type: DataType.INTEGER, allowNull: false})
     personId: number;
 
@@ -34,7 +34,7 @@ export class History extends Model<History, IHistoryCreationAttrs>{
     @Column({type: DataType.STRING(100), allowNull: false})
     value: string;
 
-    @BelongsTo(()=> Person)
+    @BelongsTo(()=> Person, {onDelete: 'CASCADE'})
     person: Person;
 
     @BelongsTo(()=> Action)

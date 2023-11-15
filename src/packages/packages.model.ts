@@ -1,9 +1,10 @@
-import {BelongsTo, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
+import {BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
 import {Size} from "../sizes/sizes.model";
 import {Party} from "../parties/parties.model";
 import {Person} from "../persons/persons.model";
 import {Material} from "../materials/materials.model";
+import {ClothOperation} from "../clothoperations/clothoperations.model";
 
 export interface IPackageCreationAttrs{
     personId:number;
@@ -68,4 +69,7 @@ export class Package extends Model<Package, IPackageCreationAttrs>{
 
     @BelongsTo(()=> Material)
     material: Material;
+
+    @HasMany(()=>ClothOperation)
+    clothOperations: ClothOperation[]
 }

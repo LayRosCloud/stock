@@ -1,15 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {Model, DataType, Column, Table, ForeignKey, HasMany, BelongsTo, BelongsToMany} from "sequelize-typescript";
+import {Model, DataType, Column, Table, HasMany, BelongsToMany} from "sequelize-typescript";
 import { ClothOperation } from "src/clothoperations/clothoperations.model";
-import { Price } from "src/prices/prices.model";
 import {ModelOperation} from "../modeloperations/entities/modeloperation.entity";
 import {ModelEntity} from "../models/models.model";
 
 export interface IOperationCreationAttrs{
     name: string;
     description: string;
-    priceId: number;
     uid: string
+    percent: number;
 }
 
 export const tableName: string = 'operations'
@@ -32,6 +31,9 @@ export class Operation extends Model<Operation, IOperationCreationAttrs>{
     @Column({type: DataType.STRING(255), allowNull: false})
     description: string;
 
+    @ApiProperty({example: 20, description: 'Процент от стоимости модели'})
+    @Column({type: DataType.INTEGER, allowNull: false})
+    percent: number;
 
     @HasMany(()=>ClothOperation)
     clothOperations: ClothOperation[];

@@ -12,8 +12,25 @@ import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
 import {UpdatePackageDto} from "./dto/update-package.dto";
 import {Party} from "../parties/parties.model";
+import {Age} from "../ages/ages.model";
+import {ModelEntity} from "../models/models.model";
+import {ClothOperation} from "../clothoperations/clothoperations.model";
 
-const include =  [Size, Material, Party, {model: Person, attributes: { exclude: ['password'] }, include: [Post]}];
+const include =  [{model: ClothOperation, attributes: ['operationId', 'isEnded']},
+    {model: Size, attributes: ['number'], include: [
+        {model:Age, attributes: ['name']}
+        ]
+    },
+    {model: Material, attributes: ['name']},
+    {model: Party, attributes: ['cutNumber'], include: [
+            {model: ModelEntity, attributes: ['title']}, {model: Person, attributes: ['id', 'firstName', 'lastName', 'patronymic', 'uid']}
+        ]
+    },
+    {model: Person, attributes: ['id','firstName', 'lastName', 'patronymic', 'uid'], include: [
+        {model:Post, attributes: ['name']}
+        ]
+    }
+    ];
 
 @Injectable()
 export class PackagesService {
@@ -53,9 +70,9 @@ export class PackagesService {
         try{
             let packages;
             if(partyId){
-                packages = await this.packageRepository.findAll({where: {partyId}, transaction,include})
+                packages = await this.packageRepository.findAll({where: {partyId}, attributes: ['id', 'count', 'isEnded', 'isRepeat', 'isUpdated'], transaction,include})
             }else{
-                packages = await this.packageRepository.findAll({transaction,include})
+                packages = await this.packageRepository.findAll({transaction, include, attributes: ['id', 'count', 'isEnded', 'isRepeat', 'isUpdated']})
             }
             await transaction.commit();
 
@@ -72,7 +89,7 @@ export class PackagesService {
         const transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const packageObj =  await this.packageRepository.findByPk(id, {include, transaction});
+            const packageObj =  await this.packageRepository.findByPk(id, {include, attributes: {exclude: ['partyId', 'personId', 'sizeId']}, transaction});
             if(!packageObj){
                 throw new NotFoundException(`Error! Object with id ${id} not found`);
             }

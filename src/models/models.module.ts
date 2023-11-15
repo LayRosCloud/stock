@@ -7,12 +7,13 @@ import { Size } from 'src/sizes/sizes.model';
 import { Party } from 'src/parties/parties.model';
 import { AuthModule } from 'src/auth/auth.module';
 import {HistoriesModule} from "../histories/histories.module";
+import {Price} from "../prices/prices.model";
 
 @Module({
   controllers: [ModelsController],
   providers: [ModelsService],
   imports: [
-    SequelizeModule.forFeature([ModelEntity, Size, Party]),
+    SequelizeModule.forFeature([ModelEntity, Size, Party, Price]),
     AuthModule,
     HistoriesModule
 ]
