@@ -16,8 +16,9 @@ export class SizesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Get()
-    async getAll(){
-        return await this.sizesService.getAll()
+    async getAll(@Req() req){
+        let ageId: number = req.query.ageId;
+        return await this.sizesService.getAll(ageId);
     }
 
     @ApiOperation({summary: 'Получение размера по id'})

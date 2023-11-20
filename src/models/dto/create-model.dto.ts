@@ -7,12 +7,12 @@ export class CreateModelDto implements IModelCreationAttrs{
     
     @ApiProperty({example: 'Треники', description: 'Название модели'})
     @IsString({message: 'Должен быть строкой'})
-    @Length(1, 30, {message: 'От 1 до 30 символов'})
+    @Length(1, 255, {message: 'От 1 до 255 символов'})
     readonly title: string;
 
     @ApiProperty({example: 'Ш230123', description: 'Артикул модели'})
     @IsString({message: 'Должен быть строкой'})
-    @Length(1, 255, {message: 'От 1 до 30 символов'})
+    @Length(1, 30, {message: 'От 1 до 30 символов'})
     readonly codeVendor: string;
 
     @ApiProperty({example: 100, description: 'Цена'})

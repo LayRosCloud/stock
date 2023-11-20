@@ -19,11 +19,16 @@ export class SizesService {
     private readonly sequelizeInstance: Sequelize
   ) {}
 
-  async getAll() {
+  async getAll(ageId) {
     const transaction = await this.sequelizeInstance.transaction();
 
     try{
-      const sizes = await this.sizeRepository.findAll({ include: [Age] });
+      let sizes;
+      if(ageId){
+        sizes = await this.sizeRepository.findAll({where: {ageId}, include: [Age] });
+      }else{
+        sizes = await this.sizeRepository.findAll({include: [Age] });
+      }
       await transaction.commit();
       return sizes;
     }catch (e){
