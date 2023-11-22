@@ -9,7 +9,7 @@ import {Sequelize, Transaction} from "sequelize";
 import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
 
-const include = [ModelEntity, {model: Person, attributes: { exclude: ['password'] }}];
+const include = [ModelEntity, {model: Person, attributes: {exclude: ['password']}}];
 @Injectable()
 export class PartiesService {
     constructor(@InjectModel(Party)
@@ -19,11 +19,16 @@ export class PartiesService {
                 private readonly sequelizeInstance: Sequelize
     ){}
 
-    async getAll(){
+    async getAll(personId){
         const transaction: Transaction = await this.sequelizeInstance.transaction();
-
         try{
-            const parties = await this.partyRepository.findAll({include, transaction});
+            const where = {}
+            if(personId){
+                // @ts-ignore
+                where.personId = personId
+            }
+            const parties = await this.partyRepository.findAll({where, include, transaction,
+                attributes: ['cutNumber', 'dateStart', 'dateEnd']});
 
             await transaction.commit();
 

@@ -3,12 +3,14 @@ import { Model, DataType, Column, Table, ForeignKey, BelongsTo, HasMany } from "
 import { ModelEntity } from "src/models/models.model";
 import { Person } from "src/persons/persons.model";
 import {Package} from "../packages/packages.model";
+import {Price} from "../prices/prices.model";
 
 export interface IPartyCreationAttrs{
     modelId: number;
     personId: number;
     dateStart: Date;
     cutNumber: string
+    priceId: number
 }
 
 export const tableName: string = 'parties'
@@ -28,13 +30,25 @@ export class Party extends Model<Party, IPartyCreationAttrs>{
     @Column({type: DataType.INTEGER, allowNull: false})
     personId: number;
 
+    @ApiProperty({example: 1, description: 'id цены модели'})
+    @ForeignKey(() => Price)
+    @Column({type: DataType.INTEGER, allowNull: false})
+    priceId: number
+
     @ApiProperty({example: '2010-01-13', description: 'Дата начала партии'})
     @Column({type: DataType.DATEONLY, allowNull: false})
     dateStart: Date;
 
+    @ApiProperty({example: '2010-01-13', description: 'Дата конца партии'})
+    @Column({type: DataType.DATEONLY, allowNull: true})
+    dateEnd: Date;
+
     @ApiProperty({example: "1.100", description: 'Номер крои'})
     @Column({type: DataType.STRING(10), allowNull: false})
     cutNumber: string
+
+    @BelongsTo(()=> Price)
+    price: Price;
 
     @BelongsTo(()=> Person)
     person: Person;

@@ -13,7 +13,7 @@ import {Price} from "../prices/prices.model";
   controllers: [ModelsController],
   providers: [ModelsService],
   imports: [
-    SequelizeModule.forFeature([ModelEntity, Size, Party, Price]),
+    SequelizeModule.forFeature([ModelEntity, Size, Party]),
     AuthModule,
     HistoriesModule
 ]

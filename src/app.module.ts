@@ -36,6 +36,8 @@ import { ClothoperatiospersonsModule } from './clothoperatiospersons/clothoperat
 import {ClothOperationPerson} from "./clothoperatiospersons/clothoperatiospersons.model";
 import { ModeloperationsModule } from './modeloperations/modeloperations.module';
 import {ModelOperation} from "./modeloperations/entities/modeloperation.entity";
+import { ModelpricesModule } from './modelprices/modelprices.module';
+import {ModelPrice} from "./modelprices/modelprices.model";
 
 @Module({
     controllers: [],
@@ -55,7 +57,7 @@ import {ModelOperation} from "./modeloperations/entities/modeloperation.entity";
                     Price, ModelEntity, Post, 
                     Permission, Party, Operation, 
                     ClothOperation, Package,
-                 Material, History, Action, ClothOperationPerson, ModelOperation],
+                 Material, History, Action, ClothOperationPerson, ModelOperation, ModelPrice],
             autoLoadModels: true
         }),
         HateoasModule,
@@ -75,7 +77,8 @@ import {ModelOperation} from "./modeloperations/entities/modeloperation.entity";
         HistoriesModule,
         ActionsModule,
         ClothoperatiospersonsModule,
-        ModeloperationsModule
+        ModeloperationsModule,
+        ModelpricesModule,
     ]
 })
 export class AppModule{}

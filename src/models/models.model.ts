@@ -4,15 +4,17 @@ import { Party } from "src/parties/parties.model";
 import {ModelOperation} from "../modeloperations/entities/modeloperation.entity";
 import {Operation} from "../operations/operations.model";
 import {Price} from "../prices/prices.model";
+import {ModelPrice} from "../modelprices/modelprices.model";
+//import {ModelPrice} from "../modelprices/entities/modelprice.entity";
 
 export interface IModelCreationAttrs{
     title: string;
     codeVendor: string;
-    priceId: number;
 }
 
 export const tableName: string = 'models'
-@Table({tableName: tableName, timestamps: false})
+
+@Table({timestamps: false, tableName: tableName})
 export class ModelEntity extends Model<ModelEntity, IModelCreationAttrs>{
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})
@@ -26,16 +28,11 @@ export class ModelEntity extends Model<ModelEntity, IModelCreationAttrs>{
     @Column({type: DataType.STRING(30), allowNull: false})
     codeVendor: string;
 
-    @ApiProperty({example: 100, description: 'цена'})
-    @ForeignKey(()=> Price)
-    @Column({type: DataType.INTEGER, allowNull: false})
-    priceId: number;
-
     @HasMany(()=>Party)
     parties: Party[]
 
-    @BelongsTo(()=> Price)
-    price: Price;
+    @BelongsToMany (()=> Price, ()=>ModelPrice)
+    prices: Price[];
 
     @BelongsToMany(() => Operation, () => ModelOperation)
     operations: Operation[]

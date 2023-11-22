@@ -8,12 +8,13 @@ import { Operation } from 'src/operations/operations.model';
 import { AuthModule } from 'src/auth/auth.module';
 import {HistoriesModule} from "../histories/histories.module";
 import {ModelEntity} from "../models/models.model";
+import {Party} from "../parties/parties.model";
 
 @Module({
   providers: [PricesService],
   controllers: [PricesController],
   imports: [
-    SequelizeModule.forFeature([Price, ClothOperation, Operation, ModelEntity]),
+    SequelizeModule.forFeature([Price, ClothOperation, Operation, Party]),
     AuthModule,
     HistoriesModule
 ]

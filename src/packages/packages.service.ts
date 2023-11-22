@@ -4,33 +4,37 @@ import {Package, tableName} from "./packages.model";
 import {Size} from "../sizes/sizes.model";
 import {Person} from "../persons/persons.model";
 import {CreatePackageDto} from "./dto/create-package.dto";
-import {Sequelize, Transaction} from "sequelize";
+import {Op, Sequelize, Transaction} from "sequelize";
 import Post from "../posts/posts.model";
 import {Material} from "../materials/materials.model";
 import {HistoriesService} from "../histories/histories.service";
 import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
 import {UpdatePackageDto} from "./dto/update-package.dto";
-import {Party} from "../parties/parties.model";
 import {Age} from "../ages/ages.model";
-import {ModelEntity} from "../models/models.model";
+import {Party} from "../parties/parties.model";
 import {ClothOperation} from "../clothoperations/clothoperations.model";
+import {ModelEntity} from "../models/models.model";
+import {Operation} from "../operations/operations.model";
 
-const include =  [{model: ClothOperation, attributes: ['operationId', 'isEnded']},
-    {model: Size, attributes: ['number'], include: [
-        {model:Age, attributes: ['name']}
-        ]
-    },
+const include = [
     {model: Material, attributes: ['name']},
-    {model: Party, attributes: ['cutNumber'], include: [
-            {model: ModelEntity, attributes: ['title']}, {model: Person, attributes: ['id', 'firstName', 'lastName', 'patronymic', 'uid']}
-        ]
+    {model: Size, attributes: ['number'],
+    include: [
+        {model: Age, attributes: ['name']}
+    ]
     },
-    {model: Person, attributes: ['id','firstName', 'lastName', 'patronymic', 'uid'], include: [
-        {model:Post, attributes: ['name']}
-        ]
-    }
-    ];
+    {model: Person,
+        attributes: ['lastName', 'firstName', 'patronymic', 'uid'],
+        include: [{model: Post, attributes: ['name']}]
+    },
+    {model: Party, include: [
+            {model: ModelEntity, attributes: ['title']},
+        {model: Person, attributes: ['lastName', 'firstName', 'patronymic', 'uid']}
+        ]},
+    {model: ClothOperation, include: [{model: Operation, attributes: ['name']}], attributes: ['operationId', 'isEnded']}
+]
+
 
 @Injectable()
 export class PackagesService {
@@ -64,16 +68,21 @@ export class PackagesService {
 
         return newList;
     }
-    async getAll(partyId){
+    async getAll(month){
         const transaction: Transaction = await this.sequelizeInstance.transaction();
 
         try{
-            let packages;
-            if(partyId){
-                packages = await this.packageRepository.findAll({where: {partyId}, attributes: ['id', 'count', 'isEnded', 'isRepeat', 'isUpdated'], transaction,include})
-            }else{
-                packages = await this.packageRepository.findAll({transaction, include, attributes: ['id', 'count', 'isEnded', 'isRepeat', 'isUpdated']})
+            const newInclude = [...include];
+            if(month){
+                // @ts-ignore
+                newInclude[3].where = {dateStart: {
+                        [Op.and]: [
+                            { [Op.gte]: new Date(new Date().getFullYear(), month - 1, 1) }, // Начало месяца
+                            { [Op.lte]: new Date(new Date().getFullYear(), month, 0) }, // Конец месяца
+                        ],
+                    }}
             }
+            const packages = await this.packageRepository.findAll({transaction, include: newInclude, attributes: ['id', 'count', 'isEnded', 'isRepeat', 'isUpdated']})
             await transaction.commit();
 
             return packages;
@@ -89,7 +98,7 @@ export class PackagesService {
         const transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const packageObj =  await this.packageRepository.findByPk(id, {include, attributes: {exclude: ['partyId', 'personId', 'sizeId']}, transaction});
+            const packageObj =  await this.packageRepository.findByPk(id, {attributes: {exclude: ['partyId', 'personId', 'sizeId']}, transaction});
             if(!packageObj){
                 throw new NotFoundException(`Error! Object with id ${id} not found`);
             }

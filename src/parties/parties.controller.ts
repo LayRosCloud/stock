@@ -17,8 +17,9 @@ export class PartiesController {
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Get()
-    async getAll(){
-        return await this.partiesService.getAll();
+    async getAll(@Req() req){
+        const personId = req.query.personId
+        return await this.partiesService.getAll(personId);
     }
 
     @ApiOperation({summary: 'Получение партии по id'})
@@ -31,7 +32,7 @@ export class PartiesController {
     }
 
     @ApiOperation({summary: 'Создание партии'})
-    @ApiResponse({status: 200, type: Party})
+    @ApiResponse({status: 201, type: Party})
     @Roles('CUTTER')
     @UseGuards(RolesGuard)
     @Post()
@@ -40,7 +41,7 @@ export class PartiesController {
     }
     
     @ApiOperation({summary: 'Обновление данных партии по id'})
-    @ApiResponse({status: 200, type: Party})
+    @ApiResponse({status: 201, type: Party})
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Put('/:id')

@@ -8,6 +8,7 @@ import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
 import {CreateModelDto} from "./dto/create-model.dto";
 import {Price} from "../prices/prices.model";
+import {Operation} from "../operations/operations.model";
 
 @Injectable()
 export class ModelsService {
@@ -22,7 +23,7 @@ export class ModelsService {
         const transaction: Transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const modelEntities = await this.modelRepository.findAll({transaction, include:[Price]});
+            const modelEntities = await this.modelRepository.findAll({transaction, include:[Price, Operation]});
 
             await transaction.commit();
 
@@ -39,7 +40,7 @@ export class ModelsService {
         const transaction = await this.sequelizeInstance.transaction();
 
         try{
-            const modelEntity =  await this.modelRepository.findByPk(id, {transaction,include:[Price]});
+            const modelEntity =  await this.modelRepository.findByPk(id, {transaction,include:[Price, Operation]});
             if(!modelEntity){
                 throw new NotFoundException(`Error! Object with id ${id} not found`);
             }

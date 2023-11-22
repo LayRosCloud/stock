@@ -19,8 +19,8 @@ export class PackagesController {
     @UseGuards(RolesGuard)
     @Get()
     async getAll(@Req() req): Promise<Package[]>{
-        const partyId = req.query['partyId']
-        return await this.packagesService.getAll(partyId);
+        const month = req.query['month']
+        return await this.packagesService.getAll(month);
     }
 
     @ApiOperation({summary: 'Получение пачки по id'})
