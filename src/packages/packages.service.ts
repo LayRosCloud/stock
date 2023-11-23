@@ -16,6 +16,7 @@ import {Party} from "../parties/parties.model";
 import {ClothOperation} from "../clothoperations/clothoperations.model";
 import {ModelEntity} from "../models/models.model";
 import {Operation} from "../operations/operations.model";
+import {Price} from "../prices/prices.model";
 
 const include = [
     {model: Material, attributes: ['name']},
@@ -30,8 +31,8 @@ const include = [
     },
     {model: Party, include: [
             {model: ModelEntity, attributes: ['title']},
-        {model: Person, attributes: ['lastName', 'firstName', 'patronymic', 'uid']}
-        ]},
+        {model: Person, attributes: ['lastName', 'firstName', 'patronymic', 'uid']},
+        Price]},
     {model: ClothOperation, include: [{model: Operation, attributes: ['name']}], attributes: ['operationId', 'isEnded']}
 ]
 
@@ -82,7 +83,7 @@ export class PackagesService {
                         ],
                     }}
             }
-            const packages = await this.packageRepository.findAll({transaction, include: newInclude, attributes: ['id', 'count', 'isEnded', 'isRepeat', 'isUpdated']})
+            const packages = await this.packageRepository.findAll({transaction, include: newInclude})
             await transaction.commit();
 
             return packages;
