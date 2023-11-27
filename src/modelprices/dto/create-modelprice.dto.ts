@@ -11,5 +11,4 @@ export class CreateModelpriceDto implements IModelPriceCreationAttrs{
     @ApiProperty({example: 1, description: 'id цены'})
     @IsNumber({}, {message: 'Должно быть числом'})
     priceId: number;
-
 }

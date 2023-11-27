@@ -8,9 +8,13 @@ import {Actions} from "../actions/action.model";
 import {ClothOperationPerson, tableName} from "./clothoperatiospersons.model";
 import {CreateClothoperationpersonDto} from "./dto/create-clothoperationperson.dto";
 import {UpdateClothoperationpersonDto} from "./dto/update-clothoperationperson.dto";
+import {ClothOperation} from "../clothoperations/clothoperations.model";
+import {Price} from "../prices/prices.model";
+import {Operation} from "../operations/operations.model";
 
 @Injectable()
 export class ClothoperatiospersonsService {
+    
     constructor(@InjectModel(ClothOperationPerson)
                 private readonly clothOperationPersonRepository: typeof ClothOperationPerson,
                 private readonly historyService: HistoriesService,
@@ -18,16 +22,16 @@ export class ClothoperatiospersonsService {
                 private readonly sequelizeInstance: Sequelize
     ) { }
 
-    async getAll(clothOperationId){
+    async getAll(personId){
         const transaction: Transaction = await this.sequelizeInstance.transaction();
 
         try{
             let clothOperationPeoples;
-            if(clothOperationId){
-                clothOperationPeoples =  await this.clothOperationPersonRepository.findAll({where: {clothOperationId},transaction})
+            if(personId){
+                clothOperationPeoples =  await this.clothOperationPersonRepository.findAll({where: {personId}, transaction, include: [{model: ClothOperation, include: [Operation, Price]}]})
             }
             else{
-                clothOperationPeoples =  await this.clothOperationPersonRepository.findAll({transaction})
+                clothOperationPeoples =  await this.clothOperationPersonRepository.findAll({transaction, include: [{model: ClothOperation, include: [Operation, Price]}]})
             }
 
             await transaction.commit();

@@ -69,11 +69,12 @@ export class PackagesService {
 
         return newList;
     }
-    async getAll(month){
+    async getAll(month, personId){
         const transaction: Transaction = await this.sequelizeInstance.transaction();
 
         try{
             const newInclude = [...include];
+            const where = {}
             if(month){
                 // @ts-ignore
                 newInclude[3].where = {dateStart: {
@@ -83,7 +84,11 @@ export class PackagesService {
                         ],
                     }}
             }
-            const packages = await this.packageRepository.findAll({transaction, include: newInclude})
+            if(personId){
+                // @ts-ignore
+                where.personId = personId;
+            }
+            const packages = await this.packageRepository.findAll({where, transaction, include: newInclude})
             await transaction.commit();
 
             return packages;

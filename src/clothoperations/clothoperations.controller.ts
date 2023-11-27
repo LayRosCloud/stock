@@ -1,14 +1,11 @@
 import {
     Body,
     Controller,
-    DefaultValuePipe,
     Delete,
     Get,
     Param,
-    ParseIntPipe,
     Post,
     Put,
-    Query,
     Req,
     UseGuards
 } from '@nestjs/common';

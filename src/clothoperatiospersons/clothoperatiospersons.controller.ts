@@ -20,8 +20,8 @@ export class ClothoperatiospersonsController {
     @UseGuards(RolesGuard)
     @Get()
     async getAll(@Req() req){
-        const clothOperationId: number = req.query['clothOperationId']
-        return await this.clothOperationPersonRepository.getAll(clothOperationId);
+        const personId: number = req.query['personId']
+        return await this.clothOperationPersonRepository.getAll(personId);
     }
 
     @ApiOperation({summary: 'Получение операции на партии по id'})

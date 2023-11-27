@@ -20,7 +20,8 @@ export class PackagesController {
     @Get()
     async getAll(@Req() req): Promise<Package[]>{
         const month = req.query['month']
-        return await this.packagesService.getAll(month);
+        const personId = req.query['personId']
+        return await this.packagesService.getAll(month, personId);
     }
 
     @ApiOperation({summary: 'Получение пачки по id'})

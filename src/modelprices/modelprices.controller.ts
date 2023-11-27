@@ -52,7 +52,7 @@ export class ModelpricesController {
     @Roles('ADMIN')
     @UseGuards(RolesGuard)
     @Delete(':id')
-    remove(@Param('id') id: string, @Req() req) {
-        return this.modelpricesService.delete(+id, req.user);
+    remove(@Param('id') id: number, @Req() req) {
+        return this.modelpricesService.delete(id, req.user);
     }
 }

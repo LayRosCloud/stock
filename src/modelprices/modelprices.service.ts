@@ -94,6 +94,7 @@ export class ModelpricesService {
                 person.id,
                 tableName,
                 `Удалена запись с полями ${id}`)
+            await transaction.commit();
             await this.historyService.create(historyDto, transaction);
         }catch (e){
             await transaction.rollback();
