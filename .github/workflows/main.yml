@@ -37,11 +37,8 @@ jobs:
 
     steps:
       - name: Deploy to Digital Server
-        uses: appleboy/ssh-action@v0.1.3
-        with:
-          host: ${{ SECRETS.HOST }}
-          username: ${{ SECRETS.USER_NAME }}
-          key: ${{ SECRETS.SSH_KEY }}
+        run: ssh ${{ SECRETS.USER_NAME}}@${{ SECRETS.HOST }}
+      - run: ${{ SECRETS.SSH_KEY }}
       - name: navigate to project
         run: cd /etc/nginx/sites-available/stock/
       - name: git cloning project
