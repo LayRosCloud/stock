@@ -42,10 +42,10 @@ jobs:
       - name: Use SSH key
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa your_server_ip >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/id_rsa $USER_NAME@$HOST "echo Connected successfully"
+          ssh-keyscan -t rsa ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_rsa ${{ secrets.USER_NAME }}@${{ secrets.HOST }} "echo Connected successfully"
       - name: navigate to project
         run: cd /etc/nginx/sites-available/stock
 
