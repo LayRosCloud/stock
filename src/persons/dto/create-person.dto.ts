@@ -24,8 +24,6 @@ export class CreatePersonDto implements IPersonCreationAttrs{
     readonly firstName: string;
 
     @ApiProperty({example: 'Иванович', required: false, description: 'Отчество пользователя'})
-    @IsString({message: 'Отчество должно быть строкой'})
-    @Length(0, 50, {message: 'От 0 до 50 символов'})
     patronymic: string;
 
     @ApiProperty({example: '1987-01-01', required: true, description: 'День рождения пользователя'})

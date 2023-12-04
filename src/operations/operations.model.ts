@@ -32,7 +32,7 @@ export class Operation extends Model<Operation, IOperationCreationAttrs>{
     description: string;
 
     @ApiProperty({example: 20, description: 'Процент от стоимости модели'})
-    @Column({type: DataType.INTEGER, allowNull: false})
+    @Column({type: DataType.FLOAT, allowNull: false})
     percent: number;
 
     @HasMany(()=>ClothOperation)

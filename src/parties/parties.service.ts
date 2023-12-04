@@ -8,8 +8,10 @@ import {HistoriesService} from "../histories/histories.service";
 import {Sequelize, Transaction} from "sequelize";
 import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
+import {Price} from "../prices/prices.model";
+import {Operation} from "../operations/operations.model";
 
-const include = [ModelEntity, {model: Person, attributes: {exclude: ['password']}}];
+const include = [{model: ModelEntity, include: [Operation]}, Price, {model: Person, attributes: {exclude: ['password']}}];
 @Injectable()
 export class PartiesService {
     constructor(@InjectModel(Party)

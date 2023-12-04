@@ -19,7 +19,7 @@ export class CreateOperationDto implements IOperationCreationAttrs{
     @Length(1, 5, {message: 'От 1 до 5 символов'})
     uid: string;
 
-    @ApiProperty({example: 20, description: 'Процент от модели'})
+    @ApiProperty({example: 20.1, description: 'Процент от модели'})
     @IsNumber({}, {message: 'Должен быть числом'})
     percent: number;
     
