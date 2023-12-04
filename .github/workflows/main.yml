@@ -46,6 +46,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -t rsa ${{ secrets.HOST }} >> ~/.ssh/known_hosts
           ssh -i ~/.ssh/id_rsa ${{ secrets.USER_NAME }}@${{ secrets.HOST }} "echo Connected successfully"
+          ${{ secrets.SSH_PWD }}
       - name: navigate to project
         run: cd /etc/nginx/sites-available/stock
 
