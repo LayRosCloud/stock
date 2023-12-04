@@ -39,9 +39,9 @@ jobs:
       - name: Deploy to Digital Server
         uses: appleboy/ssh-action@v0.1.3
         with:
-          host: ${{ SECRETS.HOST }}
-          username: ${{ SECRETS.USER_NAME }}
-          key: ${{ SECRETS.SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER_NAME }}
+          key: ${{ secrets.SSH_KEY }}
           PORT: 22
       - name: navigate to project
         run: cd /etc/nginx/sites-available/stock/
