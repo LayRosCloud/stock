@@ -36,6 +36,8 @@ jobs:
     needs: initial
 
     steps:
+      - name: Echo
+        run: echo ${{ secrets.HOST }}
       - name: Deploy to Digital Server
         uses: appleboy/ssh-action@v0.1.3
         with:
