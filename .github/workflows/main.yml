@@ -36,11 +36,19 @@ jobs:
     needs: initial
 
     steps:
-      - name: connect to server
-        run: ssh root@188.225.77.116
-      - run: dG9Zw@7y_mZkcy
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use SSH key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa your_server_ip >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_rsa $SSH_USERNAME@your_server_ip "echo Connected successfully"
       - name: navigate to project
-        run: cd /etc/nginx/sites-available/stock/
+        run: cd /etc/nginx/sites-available/stock
+
       - name: git cloning project
         run: git clone
       - name: install modules on server
