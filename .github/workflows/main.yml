@@ -29,16 +29,6 @@ jobs:
 
       - name: install modules
         run: npm install
-  build:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    needs: initial
-
-    steps:
-      - name: checkout branch
-        uses: actions/checkout@v3
-      - name: build project
-        run: npm run build
 
   deploy:
     runs-on: ubuntu-latest
