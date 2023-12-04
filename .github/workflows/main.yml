@@ -36,13 +36,9 @@ jobs:
     needs: initial
 
     steps:
-      - name: Deploy to Digital Server
-        uses: appleboy/ssh-action@v0.1.3
-        with:
-          host: 188.225.77.116
-          username: root
-          key: dG9Zw@7y_mZkcy
-          PORT: 22
+      - name: connect to server
+        run: ssh root@188.225.77.116
+      - run: dG9Zw@7y_mZkcy
       - name: navigate to project
         run: cd /etc/nginx/sites-available/stock/
       - name: git cloning project
