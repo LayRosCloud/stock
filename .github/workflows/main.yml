@@ -31,7 +31,7 @@ jobs:
         run: npm install
   build:
     runs-on: ubuntu-latest
-    if: github.event_name = 'push'
+    if: github.event_name == 'push'
     needs: initial
 
     steps:
@@ -42,7 +42,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name = 'push'
+    if: github.event_name == 'push'
     needs: build
 
     steps:
