@@ -36,14 +36,12 @@ jobs:
     needs: initial
 
     steps:
-      - name: Echo
-        run: echo ${{ secrets.SECRETS.HOST }}
       - name: Deploy to Digital Server
         uses: appleboy/ssh-action@v0.1.3
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER_NAME }}
-          key: ${{ secrets.SSH_KEY }}
+          host: 188.225.77.116
+          username: root
+          key: dG9Zw@7y_mZkcy
           PORT: 22
       - name: navigate to project
         run: cd /etc/nginx/sites-available/stock/
