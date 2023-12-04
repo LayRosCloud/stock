@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  initial:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
+
+    steps:
+      - name: checkout branch
+        uses: actions/checkout@v3
+
+      - name: Starting Node.JS ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: install nest
+        run: npm install -g @nestjs/cli
+
+      - name: install modules
+        run: npm install
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name = 'push'
+    needs: initial
+
+    steps:
+      - name: checkout branch
+        uses: actions/checkout@v3
+      - name: build project
+        run: npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name = 'push'
+    needs: build
+
+    steps:
+      - name: Deploy to Digital Server
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          host: ${{ SECRETS.HOST }}
+          username: ${{ SECRETS.USER_NAME }}
+          key: ${{ SECRETS.SSH_KEY }}
+      - name: navigate to project
+        run: cd /etc/nginx/sites-available/stock/
+      - name: git cloning project
+        run: git clone
+      - name: install modules on server
+        run: npm install
+      - name: build project
+        run: npm run build
+      - name: remove container
+        run: pm2 delete api-stock
+      - name: create new container
+        run: pm2 start npm --name "api-stock" -- start
+

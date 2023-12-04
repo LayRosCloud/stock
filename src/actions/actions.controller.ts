@@ -2,7 +2,6 @@ import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from '@
 import {CreateActionDto} from "./dto/create-action.dto";
 import {ActionsService} from "./actions.service";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Age} from "../ages/ages.model";
 import {Roles} from "../auth/roles.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {CreateAgeDto} from "../ages/dto/create-age.dto";

@@ -15,6 +15,7 @@ export enum Actions{
 export const tableName: string = 'actions'
 @Table({tableName: tableName, timestamps: false})
 export class Action extends Model<Action, IActionCreationAttrs>{
+
     @ApiProperty({example: 1, description: 'Уникальный индентификатор'})
     @Column({type: DataType.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true})
     id: number;
