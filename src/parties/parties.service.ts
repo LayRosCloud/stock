@@ -30,7 +30,7 @@ export class PartiesService {
                 where.personId = personId
             }
             const parties = await this.partyRepository.findAll({where, include, transaction,
-                attributes: ['cutNumber', 'dateStart', 'dateEnd']});
+                attributes: ['id', 'cutNumber', 'dateStart', 'dateEnd']});
 
             await transaction.commit();
 

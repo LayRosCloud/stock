@@ -12,11 +12,8 @@ import {CreateHistoryDto} from "../histories/dto/create-history.dto";
 import {Actions} from "../actions/action.model";
 import {UpdatePackageDto} from "./dto/update-package.dto";
 import {Age} from "../ages/ages.model";
-import {Party} from "../parties/parties.model";
 import {ClothOperation} from "../clothoperations/clothoperations.model";
-import {ModelEntity} from "../models/models.model";
 import {Operation} from "../operations/operations.model";
-import {Price} from "../prices/prices.model";
 
 const include = [
     {model: Material, attributes: ['name']},
@@ -29,10 +26,6 @@ const include = [
         attributes: ['lastName', 'firstName', 'patronymic', 'uid'],
         include: [{model: Post, attributes: ['name']}]
     },
-    {model: Party, include: [
-            {model: ModelEntity, attributes: ['title']},
-        {model: Person, attributes: ['lastName', 'firstName', 'patronymic', 'uid']},
-        Price]},
     {model: ClothOperation, include: [{model: Operation, attributes: ['name']}], attributes: ['operationId', 'isEnded']}
 ]
 
@@ -69,24 +62,19 @@ export class PackagesService {
 
         return newList;
     }
-    async getAll(month, personId){
+    async getAll(personId, partyId){
         const transaction: Transaction = await this.sequelizeInstance.transaction();
 
         try{
             const newInclude = [...include];
             const where = {}
-            if(month){
-                // @ts-ignore
-                newInclude[3].where = {dateStart: {
-                        [Op.and]: [
-                            { [Op.gte]: new Date(new Date().getFullYear(), month - 1, 1) }, // Начало месяца
-                            { [Op.lte]: new Date(new Date().getFullYear(), month, 0) }, // Конец месяца
-                        ],
-                    }}
-            }
             if(personId){
                 // @ts-ignore
                 where.personId = personId;
+            }
+            if(partyId){
+                // @ts-ignore
+                where.partyId = partyId;
             }
             const packages = await this.packageRepository.findAll({where, transaction, include: newInclude})
             await transaction.commit();

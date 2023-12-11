@@ -19,9 +19,9 @@ export class PackagesController {
     @UseGuards(RolesGuard)
     @Get()
     async getAll(@Req() req): Promise<Package[]>{
-        const month = req.query['month']
         const personId = req.query['personId']
-        return await this.packagesService.getAll(month, personId);
+        const partyId = req.query['partyId']
+        return await this.packagesService.getAll(personId, partyId);
     }
 
     @ApiOperation({summary: 'Получение пачки по id'})
@@ -69,3 +69,4 @@ export class PackagesController {
         return await this.packagesService.delete(id, req.user);
     }
 }
+//@ts-ignore
