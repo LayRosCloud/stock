@@ -14,6 +14,7 @@ import {UpdatePackageDto} from "./dto/update-package.dto";
 import {Age} from "../ages/ages.model";
 import {ClothOperation} from "../clothoperations/clothoperations.model";
 import {Operation} from "../operations/operations.model";
+import {Price} from "../prices/prices.model";
 
 const include = [
     {model: Material, attributes: ['name']},
@@ -26,7 +27,7 @@ const include = [
         attributes: ['lastName', 'firstName', 'patronymic', 'uid'],
         include: [{model: Post, attributes: ['name']}]
     },
-    {model: ClothOperation, include: [{model: Operation, attributes: ['name']}], attributes: ['operationId', 'isEnded']}
+    {model: ClothOperation, include: [Price,{model: Operation, attributes: ['name']}], attributes: ['operationId', 'isEnded']}
 ]
 
 
